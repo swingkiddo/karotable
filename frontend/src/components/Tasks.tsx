@@ -3,11 +3,11 @@ import Modal from 'react-modal'
 
 import DateFnsUtils from '@date-io/date-fns'
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers'
-import { Fab, Button, TextField, Select, MenuItem, InputLabel } from '@material-ui/core' 
-import { Add, Translate } from '@material-ui/icons'
+import { Fab, Button, TextField, Select } from '@material-ui/core' 
+import { Add } from '@material-ui/icons'
 import { Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core'
 
-import { IProps, IState } from './TasksInterfaces'
+import { IProps, IState, IEmployee } from './TasksInterfaces'
 
 import TasksService from './TasksService'
 import './Tasks.scss'
@@ -35,20 +35,24 @@ export default class Tasks extends Component<IProps, IState> {
         this.state = {
             all_tasks: [],
             current_tasks: [],
-            employees: [],
+            employees: {} as IEmployee,
             clients: [],
             date: new Date().toDateString(),
             showModal: false,
             clientFormValue: null,
             managerFormValue: null,
             driverFormValue: null,
-            dateFormValue: null
+            dateFormValue: null,
+            descriptionFormValue: null
         };
         this.changeDateHandler = this.changeDateHandler.bind(this);
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleClientChange = this.handleClientChange.bind(this);
+        this.handleManagerChange = this.handleManagerChange.bind(this);
+        this.handleDriverChange = this.handleDriverChange.bind(this);
+        this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
 
     }
 
@@ -71,7 +75,7 @@ export default class Tasks extends Component<IProps, IState> {
 
         var act_tasks = this.state.all_tasks.filter((task) => {
             return new Date(task.task_date).toDateString() === this.state.date;
-        })
+        });
         this.setState({current_tasks: act_tasks});        
     }
 
@@ -97,25 +101,45 @@ export default class Tasks extends Component<IProps, IState> {
     }
 
     handleSubmit(e: any) {
-    /*    tasksService.createTask({
-            "client": this.clientRef.current?.value,
-            "manager": this.managerRef.current?.value,
-            "driver": this.driverRef.current?.value,
-            "date": this.dateRef.current?.value,
-            "description": this.descriptionRef.current?.value
-        }).then(result => alert("Задача добавлена")).catch(() => alert("Произошла ошибка")); */
-        console.log(this.clientRef.current?.value)
+        /*var formData = new FormData();
+        formData.append("client", this.state.clientFormValue!);
+        formData.append("manager", this.state.managerFormValue!);
+        formData.append("driver", this.state.driverFormValue!);
+        formData.append("description", this.state.descriptionFormValue!);
+        console.log(formData.get("manager"));*/
+
+        tasksService.createTask({
+            "client": this.state.clientFormValue,
+            "manager": this.state.managerFormValue,
+            "driver": this.state.driverFormValue,
+            "description": this.state.descriptionFormValue
+        }).then(result => alert("Задача добавлена")).catch(() => alert("Произошла ошибка"));
         this.closeModal();
     }
 
     handleClientChange(event: any) {
         this.setState({clientFormValue: event.target.value});
     }
+    
+    handleManagerChange(event: any) {
+        this.setState({managerFormValue: event.target.value});
+    }
+
+    handleDriverChange(event: any) {
+        this.setState({driverFormValue: event.target.value});
+    }
+
+    handleDescriptionChange(event: any) {
+        this.setState({descriptionFormValue: event.target.value});
+    }
+    
 
     public render() {
         const tasks = this.state.current_tasks;
         const task_date = this.state.date;
         const clients = this.state.clients;
+        const managers = this.state.employees.managers;
+        const drivers = this.state.employees.drivers;
 
         return (
             <div className="wrapper">
@@ -140,16 +164,16 @@ export default class Tasks extends Component<IProps, IState> {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                    {tasks.map((task, index) => 
+                    {tasks && tasks !== undefined ? tasks.map((task, index) => 
                         <TableRow key={task.pk}>
                             <TableCell align={"center"}> <span>{index + 1}</span></TableCell>
                             <TableCell align={"center"}> <span>{task.client.name}</span> </TableCell>
                             <TableCell align={"center"}> <span>{task.client.address}</span> </TableCell>
                             <TableCell align={"center"}> <span>{task.description}</span> </TableCell>
-                            <TableCell align={"center"}> <span>{task.driver.name}</span> </TableCell>
-                            <TableCell align={"center"}> <span>{task.manager.name}</span></TableCell>
-                        </TableRow>
-                    )}
+                            <TableCell align={"center"}> <span>{task.driver}</span> </TableCell>
+                            <TableCell align={"center"}> <span>{task.manager}</span></TableCell>
+                        </TableRow>)                        
+                        : null }
                     </TableBody>
                 </Table>
 
@@ -165,14 +189,25 @@ export default class Tasks extends Component<IProps, IState> {
                         <form className="task-form">
                             <div className="task-form-inputs">
                                 <Select id="task-client" labelId="task-client-label" onChange={this.handleClientChange}>
-                                    <option aria-label="None" value='' />    
+                                        <option aria-label="None" value='' />    
                                     {clients.map(client =>
-                                    <option value={client.name}>{client.name}</option>)}
+                                        <option value={client.pk}> {client.name} </option>)}
                                 </Select>
-                                <TextField id="task-manager" label="Менеджер" inputRef={this.managerRef}/>
-                                <TextField id="task-driver" label="Водитель" inputRef={this.driverRef} />
+                                <Select id="task-manager" labelId="task-manager-label" onChange={this.handleManagerChange}>
+                                        <option aria-label="None" value='' />
+                                    {managers && managers !== undefined ? managers.map(manager => 
+                                        <option value={manager.pk}> {manager.name} </option>)
+                                            : null}  
+                                </Select>
+                                <Select id="task-driver" labelId="task-driver-label" onChange={this.handleDriverChange}>
+                                        <option aria-label="None" value='' ></option> 
+                                    {drivers && drivers !== undefined ? drivers.map(driver => 
+                                        <option value={driver.pk}> {driver.name} </option>)
+                                            : null}  
+                                </Select>
+
                                 <TextField id="task-date" label="Дата" inputRef={this.dateRef}/>
-                                <TextField id="task-description" label="Задача" inputRef={this.descriptionRef}/>
+                                <TextField id="task-description" label="Задача" inputRef={this.descriptionRef} onChange={this.handleDescriptionChange}/>
                             </div>
                             <div className="task-form-buttons">
                                 <Button variant="outlined" color="primary" onClick={this.handleSubmit}>Добавить</Button>

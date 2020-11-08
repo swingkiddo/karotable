@@ -37,14 +37,14 @@ class Employee(models.Model):
     objects = EmployeeManager()
 
     def __str__(self):
-        return '{}: {}'.format(self.name, self.position)
+        return self.name
 
     
 class Task(models.Model):
-    client = models.ForeignKey(Client, on_delete=models.CASCADE)
-    manager = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="manager")
-    driver = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="driver", null=True)
-    task_date = models.DateField()
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, null=True)
+    manager = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='tasks')
+    driver = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)
+    task_date = models.DateField(null=True)
     date_created = models.DateTimeField(auto_now_add=True)
     description = models.CharField(max_length=200)
 

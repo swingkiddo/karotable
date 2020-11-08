@@ -7,14 +7,14 @@ interface IClient {
 }
 
 interface IManager {
-    id: number,
+    pk: number,
     position: string,
     user: object,
     name: string
 }
 
 interface IDriver {
-    id: number,
+    pk: number,
     position: string,
     user: object,
     name: string
@@ -29,10 +29,9 @@ interface ITaskItem {
     client: IClient
 }
 
-interface IEmployee {
-    pk: number,
-    position: string,
-    name: string
+export interface IEmployee {
+    managers: Array<IManager>,
+    drivers: Array<IDriver>
 }
 
 interface IClient {
@@ -49,7 +48,7 @@ export interface IProps {
 export interface IState {
     all_tasks: Array<ITaskItem>,
     current_tasks: Array<ITaskItem>,
-    employees: Array<IEmployee>,
+    employees: IEmployee,
     clients: Array<IClient>,
     date: string,
     showModal: boolean,
@@ -57,4 +56,5 @@ export interface IState {
     managerFormValue: string | null,
     driverFormValue: string | null,
     dateFormValue: string | null,
+    descriptionFormValue: string | null
 }
