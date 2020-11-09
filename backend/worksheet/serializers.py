@@ -21,11 +21,25 @@ class EmployeeSerializer(serializers.ModelSerializer):
         depth = 1
 
 class TaskSerializer(serializers.ModelSerializer):
-    manager = EmployeeSerializer(read_only=True)
-    driver = EmployeeSerializer(read_only=True)
+    manager = serializers.StringRelatedField()
+    driver = serializers.StringRelatedField()
+    client = ClientSerializer()
+
     class Meta:
         model = Task
         fields = ('pk', 'manager', 'driver', 'task_date', 'description', 'client')
         depth = 1
 
+    def validate_client(self, value):
+        print("check")
+        if type(value) != int:
+            raise serializers.ValidationError("not a number")
+        return value
+
+    def create(self, validated_data):
+        print(validated_data)
+        client_id = validated_data.pop('client')
+        client_obj = Client.objects.get(pk=client_id)
+        task = Task.objects.create(client=client_obj, **validated_data)
+        return task
 
