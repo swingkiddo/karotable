@@ -1,4 +1,5 @@
-from rest_framework import serializers
+from rest_framework import serializers, status
+from rest_framework.response import Response 
 from .models import Client, Employee, Task
 from django.contrib.auth.models import User
 
@@ -23,23 +24,17 @@ class EmployeeSerializer(serializers.ModelSerializer):
 class TaskSerializer(serializers.ModelSerializer):
     manager = serializers.StringRelatedField()
     driver = serializers.StringRelatedField()
-    client = ClientSerializer()
+    client = ClientSerializer(read_only=True)
 
     class Meta:
         model = Task
         fields = ('pk', 'manager', 'driver', 'task_date', 'description', 'client')
         depth = 1
 
-    def validate_client(self, value):
-        print("check")
-        if type(value) != int:
-            raise serializers.ValidationError("not a number")
-        return value
-
-    def create(self, validated_data):
-        print(validated_data)
-        client_id = validated_data.pop('client')
-        client_obj = Client.objects.get(pk=client_id)
-        task = Task.objects.create(client=client_obj, **validated_data)
-        return task
-
+    def create(self, data):
+        request = self.context['request']
+        manager = Employee.objects.get(pk=request.data.get('manager'))
+        driver = Employee.objects.get(pk=request.data.get('driver'))
+        client = Client.objects.get(pk=request.data.get('client'))
+        new_task = Task.objects.create(manager=manager, driver=driver, client=client, **data)
+        return new_task
