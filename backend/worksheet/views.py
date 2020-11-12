@@ -64,6 +64,7 @@ class TasksListView(APIView):
 
     def post(self, request):
         serializer = TaskSerializer(data=request.data, context={"request": request})
+        print(serializer)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

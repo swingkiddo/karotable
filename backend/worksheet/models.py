@@ -42,7 +42,7 @@ class Employee(models.Model):
     
 class Task(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE, null=True)
-    manager = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='tasks')
+    manager = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, related_name='tasks')
     driver = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)
     task_date = models.DateField(null=True)
     date_created = models.DateTimeField(auto_now_add=True)

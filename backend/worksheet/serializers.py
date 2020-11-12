@@ -22,8 +22,8 @@ class EmployeeSerializer(serializers.ModelSerializer):
         depth = 1
 
 class TaskSerializer(serializers.ModelSerializer):
-    manager = serializers.StringRelatedField()
-    driver = serializers.StringRelatedField()
+    manager = serializers.StringRelatedField(required=False)
+    driver = serializers.StringRelatedField(required=False)
     client = ClientSerializer(read_only=True)
 
     class Meta:
@@ -33,8 +33,7 @@ class TaskSerializer(serializers.ModelSerializer):
 
     def create(self, data):
         request = self.context['request']
-        manager = Employee.objects.get(pk=request.data.get('manager'))
-        driver = Employee.objects.get(pk=request.data.get('driver'))
+
         client = Client.objects.get(pk=request.data.get('client'))
-        new_task = Task.objects.create(manager=manager, driver=driver, client=client, **data)
+        new_task = Task.objects.create( client=client, **data)
         return new_task

@@ -3,7 +3,8 @@ import Modal from 'react-modal'
 
 import DateFnsUtils from '@date-io/date-fns'
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers'
-import { Fab, Button, TextField, Select } from '@material-ui/core' 
+import { Fab, Button } from "@material-ui/core"
+import { FormControl, InputLabel, TextField, Select, TextareaAutosize } from '@material-ui/core' 
 import { Add } from '@material-ui/icons'
 import { Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core'
 
@@ -12,6 +13,7 @@ import { IProps, IState, IEmployee } from './TasksInterfaces'
 import TasksService from './TasksService'
 import './Tasks.scss'
 import { nb } from 'date-fns/locale'
+import { isThisSecond } from 'date-fns'
 
 const tasksService = new TasksService();
 
@@ -23,8 +25,8 @@ const customStyles = {
         bottom: 'auto',
         marginRight: '-50%',
         transform: 'translate(-50%, -50%)',
-        width: '35vw',
-        height: '45%'
+        width: '25vw',
+        height: '35%'
     }
 }
 
@@ -53,7 +55,7 @@ export default class Tasks extends Component<IProps, IState> {
         this.handleManagerChange = this.handleManagerChange.bind(this);
         this.handleDriverChange = this.handleDriverChange.bind(this);
         this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
-
+        this.handleDateChange = this.handleDateChange.bind(this);
     }
 
     clientRef = React.createRef<HTMLInputElement>();
@@ -110,8 +112,7 @@ export default class Tasks extends Component<IProps, IState> {
 
         tasksService.createTask({
             "client": this.state.clientFormValue,
-            "manager": this.state.managerFormValue,
-            "driver": this.state.driverFormValue,
+            "task_date": this.state.dateFormValue,
             "description": this.state.descriptionFormValue
         }).then(result => alert("Задача добавлена")).catch(() => alert("Произошла ошибка"));
         this.closeModal();
@@ -132,13 +133,16 @@ export default class Tasks extends Component<IProps, IState> {
     handleDescriptionChange(event: any) {
         this.setState({descriptionFormValue: event.target.value});
     }
+
+    handleDateChange(event: any) {
+        this.setState({dateFormValue: event.target.value})
+    }
     
 
     public render() {
         const tasks = this.state.current_tasks;
         const task_date = this.state.date;
         const clients = this.state.clients;
-        const managers = this.state.employees.managers;
         const drivers = this.state.employees.drivers;
 
         return (
@@ -188,26 +192,26 @@ export default class Tasks extends Component<IProps, IState> {
                         contentLabel="Добавить задачу">
                         <form className="task-form">
                             <div className="task-form-inputs">
-                                <Select id="task-client" labelId="task-client-label" onChange={this.handleClientChange}>
-                                        <option aria-label="None" value='' />    
-                                    {clients.map(client =>
-                                        <option value={client.pk}> {client.name} </option>)}
-                                </Select>
-                                <Select id="task-manager" labelId="task-manager-label" onChange={this.handleManagerChange}>
-                                        <option aria-label="None" value='' />
-                                    {managers && managers !== undefined ? managers.map(manager => 
-                                        <option value={manager.pk}> {manager.name} </option>)
-                                            : null}  
-                                </Select>
-                                <Select id="task-driver" labelId="task-driver-label" onChange={this.handleDriverChange}>
-                                        <option aria-label="None" value='' ></option> 
-                                    {drivers && drivers !== undefined ? drivers.map(driver => 
-                                        <option value={driver.pk}> {driver.name} </option>)
-                                            : null}  
-                                </Select>
 
-                                <TextField id="task-date" label="Дата" inputRef={this.dateRef}/>
-                                <TextField id="task-description" label="Задача" inputRef={this.descriptionRef} onChange={this.handleDescriptionChange}/>
+                                <FormControl>
+                                    <InputLabel htmlFor="client-input">Клиент</InputLabel>
+                                    <Select id="task-client" 
+                                            native
+                                            labelId="task-client-label" 
+                                            onChange={this.handleClientChange} 
+                                            value={this.state.clientFormValue}
+                                            inputProps={{
+                                                name: "Клиент",
+                                                id: "client-input"
+                                            }}> 
+                                            <option value=""></option>
+                                        {clients.map(client =>
+                                            <option value={client.pk}> {client.name} </option>)}
+                                    </Select>
+                                </FormControl>
+
+                                <TextField id="task-date" type="date" placeholder="Дата" inputRef={this.dateRef} onChange={this.handleDateChange} />
+                                <TextareaAutosize rowsMax={5} rowsMin={5} placeholder="Задача" onChange={this.handleDescriptionChange} />
                             </div>
                             <div className="task-form-buttons">
                                 <Button variant="outlined" color="primary" onClick={this.handleSubmit}>Добавить</Button>
