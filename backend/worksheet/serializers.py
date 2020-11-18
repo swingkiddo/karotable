@@ -1,17 +1,17 @@
 from rest_framework import serializers, status
 from rest_framework.response import Response 
+from rest_framework_jwt.settings import api_settings
+
 from .models import Client, Employee, Task
-from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
+from django.contrib.auth.models import User, update_last_login
+
 
 class ClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Client
         fields = ('pk', 'name', 'address', 'phone_number')
 
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('username',)
 
 class EmployeeSerializer(serializers.ModelSerializer):
     position = serializers.CharField(source="get_position_display")
@@ -20,6 +20,16 @@ class EmployeeSerializer(serializers.ModelSerializer):
         model = Employee 
         fields = ('pk', 'position', 'name')
         depth = 1
+
+
+class UserSerializer(serializers.ModelSerializer):
+    employee = EmployeeSerializer()
+
+    class Meta:
+        model = User
+        fields = ('username', 'employee')
+        depth = 1
+
 
 class TaskSerializer(serializers.ModelSerializer):
     manager = serializers.StringRelatedField(required=False)
@@ -37,3 +47,7 @@ class TaskSerializer(serializers.ModelSerializer):
         client = Client.objects.get(pk=request.data.get('client'))
         new_task = Task.objects.create( client=client, **data)
         return new_task
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField(max_length=255, required=True)
+    password = serializers.CharField(max_length=100, required=True)

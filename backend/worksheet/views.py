@@ -1,12 +1,47 @@
-from rest_framework import status
+from rest_framework import status, permissions
 from rest_framework.views import APIView
+from rest_framework.generics import RetrieveAPIView
 from rest_framework.response import Response
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from .models import Client, Employee, Task
-from .serializers import ClientSerializer, EmployeeSerializer, TaskSerializer
+from .serializers import ClientSerializer, EmployeeSerializer, TaskSerializer, UserSerializer, LoginSerializer
+
+
+class CurrentUser(APIView):
+    permission_classes = (permissions.AllowAny, )
+    def get(self, request):
+        try:
+            serializer = UserSerializer(request.user)
+            return Response(serializer.data)
+        except AttributeError:
+            return Response({"message": "You must to be logged in"})
+
+class LoginView(APIView):
+    permission_classes = (permissions.AllowAny,)
+    def post(self, request):
+        print(request.user)
+        serializer = LoginSerializer(data=request.data)
+        if serializer.is_valid():
+            user = authenticate(
+                username=serializer.data['username'],
+                password=serializer.data['password'])
+            if user:
+                login(request, user)
+                print(request.user)
+                return Response({"message": "You've logged in"})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class LogoutView(APIView):
+    def get(self, request):
+        logout(request)
+        return Response({"message": "You've been logged out"})
 
 
 class ClientsListView(APIView):
+    authentication_classes = (JWTAuthentication, )
     def get(self, request):
         clients = Client.objects.all()
         serializer = ClientSerializer(clients, context={"request": request}, many=True)
@@ -47,6 +82,7 @@ class ClientDetailView(APIView):
 
 
 class EmployeesListView(APIView):
+    authentication_classes = (JWTAuthentication, )
     def get(self, request):
         managers = Employee.objects.get_managers()
         drivers = Employee.objects.get_drivers()

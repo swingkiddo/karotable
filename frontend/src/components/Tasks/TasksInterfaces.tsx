@@ -20,7 +20,7 @@ interface IDriver {
     name: string
 }
 
-interface ITaskItem {
+export interface ITaskItem {
     pk: number,
     manager: IManager,
     driver: IDriver,
@@ -53,8 +53,15 @@ export interface IState {
     date: string,
     showModal: boolean,
     clientFormValue: string | null,
-    managerFormValue: string | null,
-    driverFormValue: string | null,
     dateFormValue: string | null,
     descriptionFormValue: string | null
+}
+
+export interface ITasksModalProps {
+    isOpen: boolean,
+    onRequestClose(): any,
+    onChange(e: any): any,
+    clients: Array<IClient>,
+    handleSubmit(e: any): any 
+
 }
