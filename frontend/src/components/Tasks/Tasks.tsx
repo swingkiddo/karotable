@@ -1,129 +1,95 @@
-import React, { Component } from 'react'
-import TasksModal from './TasksModal'
+import React, { Component, useState, useEffect } from 'react'
+import { CreateTaskModal } from './CreateTaskModal'
 
 import DateFnsUtils from '@date-io/date-fns'
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers'
-import { Fab } from "@material-ui/core"
+import { Fab, Paper } from "@material-ui/core"
 import { Add } from '@material-ui/icons'
+import { makeStyles } from '@material-ui/core/styles'
 
-import { IProps, IState, IEmployee } from './TasksInterfaces'
+import { ITasksProps, ITasksState } from '../../interfaces/TasksInterfaces'
 
 import TasksService from './TasksService'
-import TasksTable from './TasksTable'
+import { TasksTable } from './TasksTable'
 import './Tasks.scss'
 
 const tasksService = new TasksService();
 
+const useStyles = makeStyles((theme: any) => ({
+    paper: {
+        paddingTop: theme.spacing(2)
+    }
+}))
 
-export default class Tasks extends Component<IProps, IState> {
-    constructor(props: IProps) {
-        super(props);
-        this.state = {
-            all_tasks: [],
-            current_tasks: [],
-            employees: {} as IEmployee,
-            clients: [],
-            date: new Date().toDateString(),
-            showModal: false,
-            clientFormValue: null,
-            dateFormValue: null,
-            descriptionFormValue: null
-        };
-        this.changeDateHandler = this.changeDateHandler.bind(this);
-        this.openModal = this.openModal.bind(this);
-        this.closeModal = this.closeModal.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleTaskFormChange = this.handleTaskFormChange.bind(this);
+
+const Tasks = (props: ITasksProps) => {
+    const [allTasks, setAllTasks] = useState([])
+    const [currentTasks, setCurrentTasks] = useState([])
+    const [clients, setClients] = useState([])
+    const [date, setDate] = useState(new Date().toDateString())
+    const [showModal, setShowModal] = useState(false)
+
+    const classes = useStyles()
+
+    const changeDateHandler = (date: any) => {
+        setDate(new Date(date).toDateString())
     }
 
-    async componentDidMount() {
-        await tasksService.getTasks().then((result) => {
-            this.setState({all_tasks: result});
+    /* when component did mount, get data from API */
+    useEffect(() => {
+        tasksService.getTasks().then((tasks: any) => {
+            setAllTasks(tasks);
+            setCurrentTasks(tasks.filter((task: any) => {
+                return new Date(task.date).toDateString() === date;
+            }));
         });
-        await tasksService.getEmployees().then((result) => {
-            this.setState({employees: result})
+        tasksService.getClients().then((clients: any) => {
+            setClients(clients)
         });
-        await tasksService.getClients().then((result) => {
-            this.setState({clients: result})
-        });
+    }, [])
 
-        var act_tasks = this.state.all_tasks.filter((task) => {
-            return new Date(task.task_date).toDateString() === this.state.date;
-        });
-        this.setState({current_tasks: act_tasks});        
-    }
 
-    componentDidUpdate(prevProps: any, prevState: any) {
-        if (this.state.date !== prevState.date) {
-            var act_tasks = this.state.all_tasks.filter((task) => {
-                return new Date(task.task_date).toDateString() === this.state.date;
-            })
-            this.setState({current_tasks: act_tasks});     
-        }
-    }
-    
-    changeDateHandler(date: any) {
-        this.setState({date: new Date(date).toDateString()});
-    }
+    /* when user changes the date, update the table with matching tasks */
+    useEffect(() => {
+        setCurrentTasks(allTasks.filter((task: any) => {
+            return new Date(task.date).toDateString() === date
+        }))
+    }, [date]);
 
-    openModal() {
-        this.setState({showModal: true})
-    }
 
-    closeModal() {
-        this.setState({showModal: false})
-    }
 
-    handleSubmit(e: any) {
-        tasksService.createTask({
-            "client": this.state.clientFormValue,
-            "task_date": this.state.dateFormValue,
-            "description": this.state.descriptionFormValue
-        }).then(result => alert("Задача добавлена")).catch(() => alert("Произошла ошибка"));
-        this.closeModal();
-    }
+    return (
+        <div className="wrapper">
+        <Paper className={classes.paper}>
 
-    handleTaskFormChange(e: any) {
-        const name = e.currentTarget.name;
-        const value = e.currentTarget.value;
-        this.setState({
-            ...this.state,
-            [name]: value
-        });
-    }
-
-    public render() {
-        const tasks = this.state.current_tasks;
-        const task_date = this.state.date;
-        const clients = this.state.clients;
-
-        return (
-            <div className="wrapper">
-
-                <div className="date-picker">
-                    <div className="date-picker-input">
-                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                            <DatePicker value={task_date} onChange={this.changeDateHandler} format="d MMM yyyy" />
-                        </MuiPickersUtilsProvider>
-                    </div>
+            <div className="date-picker">
+                <div className="date-picker-input">
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <DatePicker value={date} onChange={changeDateHandler} format="d MMM yyyy" />
+                    </MuiPickersUtilsProvider>
                 </div>
-
-                <TasksTable tasks={tasks} />
-
-                <div className="add-task-button">
-                    <Fab color="primary" onClick={this.openModal}>
-                        <Add />
-                    </Fab>
-
-                    <TasksModal 
-                        isOpen={this.state.showModal}
-                        onRequestClose={this.closeModal}
-                        onChange={this.handleTaskFormChange}
-                        clients={clients}
-                        handleSubmit={this.handleSubmit} />
-                </div>
-
             </div>
-        )
-    }
+
+            <TasksTable 
+                tasks={currentTasks}
+                clients={clients}
+                currentUser={props.currentUser} />
+
+            <div className="add-task-button">
+                <Fab color="primary" onClick={() => setShowModal(true)}>
+                    <Add />
+                </Fab>
+
+                <CreateTaskModal 
+                    isOpen={showModal}
+                    onRequestClose={() => setShowModal(false)}
+                    clients={clients}
+                    currentUser={props.currentUser} />
+            </div>
+
+        </Paper>
+        </div>
+    )
 }
+
+export  { Tasks }

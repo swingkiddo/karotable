@@ -1,7 +1,12 @@
+.wrapper {
+    padding: 0 2rem;
+}
+
 .date-picker {
     display: flex;
     justify-content: flex-end;
     width: 100%;
+    
 
     &-input {
         margin-right: 4rem;
@@ -57,18 +62,6 @@
     font-family: 'Montserrat', sans-serif;
 }
 
-.MuiInput-root {
-    width: 80%;
-    height: 50%;
-    margin: 0 auto;
-}
 
-.MuiFormControl-root {
-    width: 100%;
-
-    & label {
-        margin-left: 3rem;
-    }
-}
 
 
