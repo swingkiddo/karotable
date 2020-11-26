@@ -1,6 +1,5 @@
 from rest_framework import serializers, status
 from rest_framework.response import Response 
-from rest_framework_jwt.settings import api_settings
 
 from .models import Client, Employee, Task
 from django.contrib.auth import authenticate
@@ -10,7 +9,7 @@ from django.contrib.auth.models import User, update_last_login
 class ClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Client
-        fields = ('pk', 'name', 'address', 'phone_number', 'manager')
+        fields = ('pk', 'name', 'address', 'phoneNumber', 'email', 'manager')
 
 
 class EmployeeSerializer(serializers.ModelSerializer):

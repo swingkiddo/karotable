@@ -60,7 +60,9 @@ const Tasks = (props: ITasksProps) => {
 
     return (
         <div className="wrapper">
-        <Paper className={classes.paper}>
+        <Paper 
+            elevation={3}
+            className={classes.paper}>
 
             <div className="date-picker">
                 <div className="date-picker-input">
