@@ -32,7 +32,7 @@ const UserMenu = (props) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem><Link to='/clients'>Клиенты</Link></MenuItem>
+                <MenuItem onClick={(e) => handleClose()}><Link to='/clients'>Клиенты</Link></MenuItem>
                 <Divider />
                 <MenuItem onClick={logout}>Выйти</MenuItem>
             </Menu>

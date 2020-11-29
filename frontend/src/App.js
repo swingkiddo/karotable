@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 import axios from 'axios'
 
-import Nav from './components/Main/Nav'
-import Tasks from './components/Tasks/Tasks'
-import Login from './components/Login'
-import LoginTwo from './components/Login'
+import Login from './components/Main/Login'
 import ManagerView from './components/Views/Managers/ManagerView'
 import './App.scss';
 

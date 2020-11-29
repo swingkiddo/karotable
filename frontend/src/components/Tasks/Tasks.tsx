@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { CreateTaskModal } from './CreateTaskModal'
 
 import DateFnsUtils from '@date-io/date-fns'
@@ -7,7 +7,7 @@ import { Fab, Paper } from "@material-ui/core"
 import { Add } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { ITasksProps, ITasksState } from '../../interfaces/TasksInterfaces'
+import { ITasksProps } from '../../interfaces/TasksInterfaces'
 
 import TasksService from './TasksService'
 import { TasksTable } from './TasksTable'
