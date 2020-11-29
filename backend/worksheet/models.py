@@ -35,7 +35,7 @@ class Employee(models.Model):
 class Client(models.Model):
     name = models.CharField(max_length=20)
     address = models.CharField(max_length=100)
-    phone_number = models.IntegerField()
+    phoneNumber = models.IntegerField()
     email = models.EmailField(null=True)
     manager = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)
 
@@ -46,7 +46,6 @@ class Client(models.Model):
 class Task(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE, null=True)
     manager = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, blank=True, related_name='tasks')
-    driver = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, blank=True)
     date = models.DateField(null=True)
     date_created = models.DateTimeField(auto_now_add=True)
     description = models.CharField(max_length=200)

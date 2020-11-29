@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 import axios from 'axios'
 
-import Nav from './components/Main/Nav'
-import Tasks from './components/Tasks/Tasks'
-import Login from './components/Login'
-import LoginTwo from './components/Login'
+import Login from './components/Main/Login'
 import ManagerView from './components/Views/Managers/ManagerView'
 import './App.scss';
 
@@ -26,7 +23,7 @@ class App extends Component {
 
   componentDidMount() {
     if (this.state.loggedIn) {
-      const url = 'http://192.168.1.31:8000/api/current-user/';
+      const url = 'http://localhost:8000/api/current-user/';
       axios.get(url, {headers: {"Authorization": `Bearer ${localStorage.getItem('token')}`}})
         .then(res => res.data)
         .then(data => {
@@ -40,20 +37,20 @@ class App extends Component {
 
   handleLogin = async (e, data) => {
     e.preventDefault();
-    const url = 'http://192.168.1.31:8000/api/token/';
+    const url = 'http://localhost:8000/api/token/';
     await axios.post(url, data, {headers: {'Content-Type': 'application/json'}})
       .then(response => response.data)
       .then(data => {
         localStorage.setItem('token', data.access);
         this.setState({loggedIn: true})
       })
-    window.location.replace("http://192.168.1.31:3000/tasks/")
+    window.location.replace("http://localhost:3000/tasks/")
   }
 
   handleLogout = () => {
     localStorage.removeItem('token');
     this.setState({loggedIn: false, username: '', currentUser: null});
-    window.location.replace("http://192.168.1.31:3000/production/")
+    window.location.replace("http://localhost:3000/production/")
   };
 
   renderViewSwitch(position) {

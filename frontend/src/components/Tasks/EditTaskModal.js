@@ -27,6 +27,10 @@ const customStyles = {
 const useStyles = makeStyles((theme) => ({
     button: {
         marginLeft: theme.spacing(2)
+    },
+    input: {
+        width: "80%",
+        margin: "0 auto"
     }
 }))
 
@@ -69,17 +73,18 @@ export const EditTaskModalTwo = (props) => {
             <form className="task-form">
                 <div className="task-form-inputs">
 
-                    <FormControl>
+                    <FormControl className={classes.input}>
                         <InputLabel htmlFor="client-input">Клиент</InputLabel>
-                        <Select id="task-client" 
-                                native
-                                labelId="task-client-label" 
-                                onChange={(e) => {setClientValue(e.currentTarget.value)}} 
-                                defaultValue={clientValue}
-                                inputProps={{
-                                    name: "clientFormValue",
-                                    id: "client-input"
-                                }} > 
+                        <Select 
+                            id="task-client" 
+                            native
+                            labelId="task-client-label" 
+                            onChange={(e) => {setClientValue(e.currentTarget.value)}} 
+                            defaultValue={clientValue}
+                            inputProps={{
+                                name: "clientFormValue",
+                                id: "client-input"
+                            }} > 
 
                                 <option value=""></option>
                             {props.clients.map(client =>
@@ -87,14 +92,16 @@ export const EditTaskModalTwo = (props) => {
                         </Select>
                     </FormControl>
 
-                    <TextField id="task-date"
-                                type="date" 
-                                placeholder="Дата" 
-                                onChange={(e) => {setDateValue(e.currentTarget.value)}}
-                                defaultValue={dateValue}
-                                inputProps = {{
-                                    name: "dateFormValue"
-                                }} />
+                    <TextField 
+                        className={classes.input}
+                        id="task-date"
+                        type="date" 
+                        placeholder="Дата" 
+                        onChange={(e) => {setDateValue(e.currentTarget.value)}}
+                        defaultValue={dateValue}
+                        inputProps = {{
+                            name: "dateFormValue"
+                        }} />
 
                     <TextareaAutosize 
                         rowsMax={5} 

@@ -1,7 +1,7 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles'
-import { Paper, FormControl, InputLabel, Input, TextField, Button } from '@material-ui/core'
-import { TheatersRounded } from '@material-ui/icons';
+import { Paper, TextField, Button } from '@material-ui/core'
+
 
 const useStyles = makeStyles((theme) => ({
     wrapper: {
