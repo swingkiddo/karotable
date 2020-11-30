@@ -9,6 +9,9 @@ export interface IClient {
     pk: number,
     name: string,
     address: string,
-    phone_number: number
+    city: string,
+    street: string,
+    building: string,
+    phone: number,
     manager: number
 }

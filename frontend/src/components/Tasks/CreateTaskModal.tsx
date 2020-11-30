@@ -11,7 +11,7 @@ import { makeStyles } from "@material-ui/core/styles"
 
 
 import { ITasksModalProps } from '../../interfaces/TasksInterfaces'
-import TasksService from './TasksService'
+import TasksService from '../../services/TasksService'
 
 const tasksService = new TasksService();
 

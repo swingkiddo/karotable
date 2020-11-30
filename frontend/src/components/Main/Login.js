@@ -2,6 +2,11 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles'
 import { Paper, TextField, Button } from '@material-ui/core'
 
+import Authentication from '../../services/AuthenticationService'
+import { dateComparer } from '@material-ui/data-grid';
+
+const authentication = new Authentication()
+
 
 const useStyles = makeStyles((theme) => ({
     wrapper: {
@@ -65,6 +70,12 @@ const Login = (props) => {
         if (name === 'password') setPassword(value);
     };
 
+    const handleLogin = (e, data) => {
+        e.preventDefault();
+        authentication.authtorizeUser(data);
+
+    }
+
     const data = {
         "username": username,
         "password": password
@@ -73,7 +84,7 @@ const Login = (props) => {
     return (
         <div className={classes.wrapper}>
             <Paper elevation={3}>
-                <form className="login-form" onSubmit={e => props.handleLogin(e, data)}>
+                <form className="login-form" onSubmit={e => handleLogin(e, data)}>
                     <div className={classes.inputs}>
                         <div className={classes.inputWrapper}>
                             <TextField 
@@ -103,7 +114,7 @@ const Login = (props) => {
                                 variant="contained" 
                                 color="primary" 
                                 className={classes.button}
-                                onClick={e => props.handleLogin(e, data)}
+                                onClick={e =>handleLogin(e, data)}
                             >
                                 Войти
                             </Button>

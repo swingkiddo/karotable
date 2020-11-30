@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import { ITasksProps } from '../../interfaces/TasksInterfaces'
 
-import TasksService from './TasksService'
+import TasksService from '../../services/TasksService'
 import { TasksTable } from './TasksTable'
 import './Tasks.scss'
 

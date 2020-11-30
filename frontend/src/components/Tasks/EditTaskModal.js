@@ -8,7 +8,7 @@ import { FormControl,
     Button } from '@material-ui/core' 
 import { makeStyles } from '@material-ui/core/styles' 
 
-import TasksService from './TasksService'
+import TasksService from '../../services/TasksService'
 const tasksService = new TasksService();
 
 const customStyles = {

@@ -7,9 +7,10 @@ const HEADERS = {
     "Content-Type": "application/json" }
 
 export default class ClientsService {
-    getClients() {
+    async getClients() {
         const url = `${API_URL}/clients/`;
-        return axios.get(url, {headers: HEADERS}).then(response => response.data)
+        const clients = await axios.get(url, {headers: HEADERS}).then(response => response.data);
+        return clients;
     }
 
     getClient(pk) {
