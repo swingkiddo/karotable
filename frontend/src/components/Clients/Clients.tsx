@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { IClientsProps } from '../../interfaces/ClientsInterfaces'
+import { IClient } from '../../interfaces/CommonInterfaces'
 
 import { Paper, Button } from '@material-ui/core'
 import { DataGrid, ColDef, RowsProp } from '@material-ui/data-grid'
 import { makeStyles } from '@material-ui/core/styles'
-import ClientsService from './ClientsService';
 
+import ClientCard from './ClientCard'
+
+import ClientsService from '../../services/ClientsService';
 const clientsService = new ClientsService();
 
 
@@ -20,6 +23,7 @@ const useStyles = makeStyles((theme: any) => ({
         width: '100%',
         display: 'flex',
         justifyContent: 'space-between',
+        marginBottom: theme.spacing(3),
 
         "& button": {
             margin: theme.spacing(3),
@@ -36,32 +40,26 @@ const useStyles = makeStyles((theme: any) => ({
 }))
 
 
-const columns: ColDef[] = [
-    { field: 'pk', headerName: '#', type: 'number' },
-    { field: 'name', headerName: 'Наименование', flex: .5 },
-    { field: 'address', headerName: 'Адрес', flex: 1 },
-    { field: 'phoneNumber', headerName: 'Телефон', width: 200 },
-    { field: 'email', headerName: 'Email', flex: 1 }
-]
-
 
 const Clients = (props: IClientsProps) => {
-    const [clients, setClients] = useState([])
-    clients.forEach((client: any, index: number) => {
-        client.id = index;
-        client.pk = index + 1;
-        delete client['manager']
-    })
-    console.log(clients)
+    const [userClients, setUserClients] = useState<IClient[]>([])
 
     const classes = useStyles()
+    const user = props.user;
+    const clients = props.clients;
+    
 
     useEffect(() => {
-        clientsService.getClients()
-            .then(clients => setClients(clients.filter((c: any) => {
-                return props.currentUser.clients.includes(c.pk)
-            })));
-    }, [])
+        if (user && user !== undefined && clients && clients !== undefined) {
+            const timer = setTimeout(() => {
+                setUserClients(clients.filter((c: any) => {
+                    return c.manager === user.pk
+                }));
+            }, 1000)
+            return () => clearTimeout(timer);
+        }
+    }, [user, clients])
+
 
     return (
         <div className={classes.wrapper}>
@@ -70,12 +68,20 @@ const Clients = (props: IClientsProps) => {
                     <span className={classes.tableHeader}>Клиенты</span>
                     <Button variant="contained" color="primary">Добавить</Button>
                 </div>
+            </Paper>
+
+            <Paper elevation={3}>
+                { userClients && userClients !== undefined
+                    ? userClients.map((client: any) => <ClientCard client={client} />)
+                    : null }
+            </Paper> 
+    {
+        /*
                 <div className={classes.tableWrapper}>
                     <DataGrid autoHeight={true} columns={columns} rows={clients} hideFooter={true} />
                 </div>
-
-            </Paper>
-
+        */
+    }
         </div>
     )
 }

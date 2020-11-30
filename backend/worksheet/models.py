@@ -35,7 +35,10 @@ class Employee(models.Model):
 class Client(models.Model):
     name = models.CharField(max_length=20)
     address = models.CharField(max_length=100)
-    phoneNumber = models.IntegerField()
+    city = models.CharField(max_length=50, null=True)
+    street = models.CharField(max_length=50, null=True)
+    building = models.CharField(max_length=20, null=True)
+    phone = models.IntegerField()
     email = models.EmailField(null=True)
     manager = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)
 

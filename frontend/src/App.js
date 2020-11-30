@@ -1,82 +1,35 @@
-import React, { Component } from 'react'
+
+import React, { useEffect, useState } from 'react'
 import { BrowserRouter } from 'react-router-dom'
-import axios from 'axios'
+
+import Authentication from './services/AuthenticationService'
+import ClientsService from './services/ClientsService'
 
 import Login from './components/Main/Login'
 import ManagerView from './components/Views/Managers/ManagerView'
 import './App.scss';
 
+const authentication = new Authentication();
+const clientsService = new ClientsService();
 
+export const App = (props) => {
+  const [loggedIn, setLoggedIn] = useState(authentication.checkToken()) 
+  const [user, setUser] = useState({})
+  const [clients, setClients] = useState(clientsService.getClients()) 
 
-class App extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      loggedIn: localStorage.getItem('token') ? true : false,
-      username: '',
-      currentUser: null,
-      
-    }
-    this.handleLogin = this.handleLogin.bind(this);
-    this.handleLogout = this.handleLogout.bind(this);
-  }
+  /* getting clients and user  when App component did mount*/
+  useEffect(() => {
+    clientsService.getClients()
+    .then(data => setClients(data));
 
-  componentDidMount() {
-    if (this.state.loggedIn) {
-      const url = 'http://localhost:8000/api/current-user/';
-      axios.get(url, {headers: {"Authorization": `Bearer ${localStorage.getItem('token')}`}})
-        .then(res => res.data)
-        .then(data => {
-          console.log(data);
-          this.setState({
-            username: data.username,
-            currentUser: data.employee})
-        })
-    }
-  }
+    authentication.getUser().then(user => setUser(user))
+  }, [])
+  
+  return (
+    <BrowserRouter>
+      { loggedIn ? <ManagerView user={user.employee} clients={clients} />
+                 : <Login /> }
+    </BrowserRouter>
 
-  handleLogin = async (e, data) => {
-    e.preventDefault();
-    const url = 'http://localhost:8000/api/token/';
-    await axios.post(url, data, {headers: {'Content-Type': 'application/json'}})
-      .then(response => response.data)
-      .then(data => {
-        localStorage.setItem('token', data.access);
-        this.setState({loggedIn: true})
-      })
-    window.location.replace("http://localhost:3000/tasks/")
-  }
-
-  handleLogout = () => {
-    localStorage.removeItem('token');
-    this.setState({loggedIn: false, username: '', currentUser: null});
-    window.location.replace("http://localhost:3000/production/")
-  };
-
-  renderViewSwitch(position) {
-    switch(position) {
-      case 'Менеджер':
-        return <ManagerView logout={this.handleLogout} currentUser={this.state.currentUser} />;
-      case 'Водитель':
-        return <ManagerView logout={this.handleLogout} currentUser={this.state.currentUser} />;
-    }
-  }
-
-  render() {
-    const currentUser = this.state.currentUser;
-    let view;
-    if (currentUser && currentUser.position){
-      view = this.renderViewSwitch(currentUser.position)
-    }
-    return (
-      this.state.loggedIn ?
-      <BrowserRouter>
-        {view}
-      </BrowserRouter>
-
-      : <Login handleLogin={this.handleLogin} />
-    )
-  }
+  )
 }
-
-export default App;

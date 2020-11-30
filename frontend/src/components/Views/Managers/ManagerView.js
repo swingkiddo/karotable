@@ -4,12 +4,14 @@ import Nav from '../../Main/Nav'
 import { Tasks } from '../../Tasks/Tasks'
 import Clients from '../../Clients/Clients'
 
+import Authentication from '../../../services/AuthenticationService'
+const authentication = new Authentication()
 
 const ManagerView = (props) => {
 
     return (
         <div className="page">
-          <Nav logout={props.handleLogout}/>
+          <Nav logout={authentication.logout}/>
 
           <div className="content">
             <Switch>  
@@ -24,7 +26,7 @@ const ManagerView = (props) => {
 
               </Route>
               <Route path="/clients">
-                <Clients currentUser={props.currentUser} />
+                <Clients user={props.user} clients={props.clients} />
               </Route>
             </Switch>
           </div>
