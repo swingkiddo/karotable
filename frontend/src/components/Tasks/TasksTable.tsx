@@ -12,22 +12,13 @@ export const TasksTable = (props: ITasksTableProps) => {
     const [showModal, setShowModal] = useState(false);
     const [taskForModal, setTaskForModal] = useState<ITaskItem | null>(null);
 
-    const openModal = () => {
-        setShowModal(true)
-    }
-
-    const closeModal = () => {
-        setMountModal(false)
-        setShowModal(false)
-    }
-
     const handleRowClick = (e: any, pk: number) => {
         const taskForModal = props.tasks.filter((task) => {
             return task.pk === pk
         });
         setMountModal(true);
+        setShowModal(true)
         setTaskForModal(taskForModal[0]);
-        openModal();
     }
 
     return (
@@ -45,7 +36,10 @@ export const TasksTable = (props: ITasksTableProps) => {
                         task={taskForModal}
                         clients={props.clients} 
                         isOpen={showModal} 
-                        onRequestClose={closeModal} />                 
+                        onRequestClose={() => {
+                            setMountModal(false);
+                            setShowModal(false)
+                        }} />                 
                 : null}
 
             </TableHead>
@@ -54,7 +48,11 @@ export const TasksTable = (props: ITasksTableProps) => {
                 <TableRow key={task.pk} hover onClick={(e) => handleRowClick(e, task.pk) }>
                     <TableCell align={"center"}> <span>{index + 1}</span></TableCell>
                     <TableCell align={"center"}> <span>{task.client.name}</span> </TableCell>
-                    <TableCell align={"center"}> <span>{task.client.address}</span> </TableCell>
+                    <TableCell align={"center"}>
+                        <span>
+                            {task.client.city}, {task.client.street}, {task.client.building} 
+                        </span> 
+                    </TableCell>
                     <TableCell align={"center"}> <span>{task.description}</span> </TableCell>
                     <TableCell align={"center"}> <span>{task.manager}</span></TableCell>
 
