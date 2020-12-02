@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { CreateTaskModal } from './CreateTaskModal'
+import moment from 'moment'
 
 import DateFnsUtils from '@date-io/date-fns'
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers'
-import { Fab, Paper } from "@material-ui/core"
-import { Add } from '@material-ui/icons'
+import { Fab, Paper, IconButton, Icon } from "@material-ui/core"
+import { Add, ArrowLeft, ArrowRight } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/core/styles'
 
 import { ITasksProps } from '../../interfaces/TasksInterfaces'
@@ -17,7 +18,7 @@ const tasksService = new TasksService();
 
 const useStyles = makeStyles((theme: any) => ({
     paper: {
-        paddingTop: theme.spacing(2)
+        paddingTop: '0'
     }
 }))
 
@@ -55,8 +56,8 @@ const Tasks = (props: ITasksProps) => {
             return new Date(task.date).toDateString() === date
         }))
     }, [date]);
-
-
+    console.log(moment().format("MM-DD-YYYY"))
+    console.log(moment().day(1).format("MM-DD-YYYY"))
 
     return (
         <div className="wrapper">
@@ -64,14 +65,24 @@ const Tasks = (props: ITasksProps) => {
             elevation={3}
             className={classes.paper}>
 
-            <div className="date-picker">
-                <div className="date-picker-input">
+            <div className="tasks-top-panel">
+                <div className="tasks-top-panel-header">
+                    <span> Задачи </span>
+                </div>
+                <div className="tasks-top-panel-date-picker">
+                    <IconButton onClick={(e) => setDate(new Date(new Date().setDate(new Date(date).getDate() - 1)).toDateString())}>
+                        <ArrowLeft />
+                    </IconButton>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <DatePicker value={date} onChange={changeDateHandler} format="d MMM yyyy" />
                     </MuiPickersUtilsProvider>
+                    <IconButton >
+                        <ArrowRight onClick={(e) => setDate(new Date(new Date().setDate(new Date(date).getDate() + 1)).toDateString())}/>
+                    </IconButton>
                 </div>
             </div>
-
+        </Paper>
+        <Paper>
             <TasksTable 
                 tasks={currentTasks}
                 clients={clients}

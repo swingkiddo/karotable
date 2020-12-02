@@ -16,6 +16,9 @@ export default function Nav(props) {
           <li className="nav-menu-left-item">
             <a href="/tasks">ЗАДАЧИ</a>
           </li>
+          <li className="nav-menu-left-item">
+            <a href="/clients">КЛИЕНТЫ</a>
+          </li>
         </ul>
         <ul className="nav-menu-right">
           <li className="nav-menu-right-item">

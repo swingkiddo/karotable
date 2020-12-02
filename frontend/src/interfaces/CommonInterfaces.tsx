@@ -13,5 +13,6 @@ export interface IClient {
     street: string,
     building: string,
     phone: number,
-    manager: number
+    manager: number,
+    email: string
 }

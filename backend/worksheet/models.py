@@ -34,11 +34,11 @@ class Employee(models.Model):
 
 class Client(models.Model):
     name = models.CharField(max_length=20)
-    address = models.CharField(max_length=100)
+    address = models.CharField(max_length=100, null=True, blank=True)
     city = models.CharField(max_length=50, null=True)
     street = models.CharField(max_length=50, null=True)
     building = models.CharField(max_length=20, null=True)
-    phone = models.IntegerField()
+    phone = models.CharField(max_length=15)
     email = models.EmailField(null=True)
     manager = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)
 

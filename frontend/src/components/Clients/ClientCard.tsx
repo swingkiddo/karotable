@@ -1,30 +1,56 @@
 import React, { useState } from 'react'
-import { IClientCardProps } from '../../interfaces/ClientsInterfaces'
+import { ICommonClientProps , IClientModalProps} from '../../interfaces/ClientsInterfaces'
 import { 
-    Button, 
     Card, 
     CardActions, 
     CardContent, 
-    Typography } from '@material-ui/core'
+    Typography,
+    IconButton,
+    Divider } from '@material-ui/core'
+import { MoreVert, MailOutline, Room } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/core/styles'
+
+import { ClientCardMenu } from './ClientCardMenu'
 
 const useStyles = makeStyles((theme: any) => ({
     card: {
-        maxWidth: '300px',
+        width: '100%',
+        transition: 'all .5s',
         '& p': {
             fontFamily: 'Montserrat, sans-serif',
             textAlign: 'center'
+        },
+        '&:hover': {
+            boxShadow: '0 0 2px 5px rgba(1, 135, 84, .5)',
         }
     },
+    cardButtons: {
+        justifyContent: "flex-end"
+    },
     cardWrapper: {
-        padding: '10px',
+        padding: theme.spacing(2)
     },
     clientName: {
-        fontWeight: 700
+        fontWeight: 700,
+        marginBottom: theme.spacing(2),
+        '& span': {
+            fontSize: '1.5rem'
+        }
+    },
+    clientPhone: {
+        marginBottom: theme.spacing(2),
+        '& span': {
+            fontWeight: 300
+        }
+    },
+    clientAddress: {
+        '& span': {
+            fontSize: '1rem'
+        }
     }
 }));
 
-const ClientCard = (props: IClientCardProps) => {
+const ClientCard = (props: ICommonClientProps) => {
     const classes = useStyles();
     const client = props.client;
 
@@ -33,18 +59,40 @@ const ClientCard = (props: IClientCardProps) => {
         { props.client && props.client !== undefined
         ? <Card className={classes.card}>
             <CardContent>
+
                 <Typography className={classes.clientName}>
-                    { client.name }
+                    <span> { client.name } </span>
                 </Typography>
-                <Typography>
-                    +{ client.phone }
+
+                <Typography className={classes.clientPhone}>
+                    <span> +{ client.phone } </span>
                 </Typography>
-                <Typography>
-                    { client.city } <br />
-                    { client.street } <br />
-                    { client.building }
+
+                <Typography className={classes.clientAddress}>
+                    <span> { client.city } </span>, 
+                    <span> { client.street } </span><br />
+                    <span> { client.building } </span>
                 </Typography>
+
             </CardContent>
+            
+            <CardActions className={classes.cardButtons}>
+                <IconButton>
+                    <MailOutline />
+                </IconButton>
+
+                <IconButton>
+                    <Room />
+                </IconButton>
+
+                <ClientCardMenu 
+                    client={client} 
+                    deleteClient={props.deleteClient} 
+                    showCreateModal={props.showCreateModal}
+                    closeCreateModal={props.closeCreateModal}
+                    setEditableClient={props.setEditableClient}/>
+            </CardActions>
+
           </Card>
         : null
         }

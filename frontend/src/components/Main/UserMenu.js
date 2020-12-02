@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { IconButton, Menu, MenuItem, Divider } from '@material-ui/core'
 import { Menu as MenuIcon } from '@material-ui/icons'
+import Authentication from '../../services/AuthenticationService'
+
+const authentication = new Authentication();
 
 const UserMenu = (props) => {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -13,10 +16,6 @@ const UserMenu = (props) => {
     const handleClose = () => {
         setAnchorEl(null);
     };
-
-    const logout = () => {
-        localStorage.removeItem('token');
-    }
 
     return (
         <div>
@@ -34,7 +33,7 @@ const UserMenu = (props) => {
             >
                 <MenuItem onClick={(e) => handleClose()}><Link to='/clients'>Клиенты</Link></MenuItem>
                 <Divider />
-                <MenuItem onClick={logout}>Выйти</MenuItem>
+                <MenuItem onClick={authentication.logout}>Выйти</MenuItem>
             </Menu>
         </div>
     )
