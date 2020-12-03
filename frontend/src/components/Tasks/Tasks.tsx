@@ -27,13 +27,13 @@ const Tasks = (props: ITasksProps) => {
     const [allTasks, setAllTasks] = useState([])
     const [currentTasks, setCurrentTasks] = useState([])
     const [clients, setClients] = useState([])
-    const [date, setDate] = useState(new Date().toDateString())
+    const [date, setDate] = useState(moment().format("YYYY-MM-DD"))
     const [showModal, setShowModal] = useState(false)
 
     const classes = useStyles()
 
     const changeDateHandler = (date: any) => {
-        setDate(new Date(date).toDateString())
+        setDate(moment(date).format("YYYY-MM-DD"))
     }
 
     /* when component did mount, get data from API */
@@ -41,7 +41,7 @@ const Tasks = (props: ITasksProps) => {
         tasksService.getTasks().then((tasks: any) => {
             setAllTasks(tasks);
             setCurrentTasks(tasks.filter((task: any) => {
-                return new Date(task.date).toDateString() === date;
+                return moment(task.date).format("YYYY-MM-DD") === date;
             }));
         });
         tasksService.getClients().then((clients: any) => {
@@ -53,11 +53,10 @@ const Tasks = (props: ITasksProps) => {
     /* when user changes the date, update the table with matching tasks */
     useEffect(() => {
         setCurrentTasks(allTasks.filter((task: any) => {
-            return new Date(task.date).toDateString() === date
+            return moment(task.date).format("YYYY-MM-DD") === date
         }))
     }, [date]);
-    console.log(moment().format("MM-DD-YYYY"))
-    console.log(moment().day(1).format("MM-DD-YYYY"))
+
 
     return (
         <div className="wrapper">
@@ -70,14 +69,14 @@ const Tasks = (props: ITasksProps) => {
                     <span> Задачи </span>
                 </div>
                 <div className="tasks-top-panel-date-picker">
-                    <IconButton onClick={(e) => setDate(new Date(new Date().setDate(new Date(date).getDate() - 1)).toDateString())}>
-                        <ArrowLeft />
+                    <IconButton>
+                        <ArrowLeft onClick={(e) => setDate(moment(date).add(-1, "day").format("YYYY-MM-DD"))}/>
                     </IconButton>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <DatePicker value={date} onChange={changeDateHandler} format="d MMM yyyy" />
                     </MuiPickersUtilsProvider>
                     <IconButton >
-                        <ArrowRight onClick={(e) => setDate(new Date(new Date().setDate(new Date(date).getDate() + 1)).toDateString())}/>
+                        <ArrowRight onClick={(e) => setDate(moment(date).add(1, "day").format("YYYY-MM-DD"))}/>
                     </IconButton>
                 </div>
             </div>
@@ -105,4 +104,4 @@ const Tasks = (props: ITasksProps) => {
     )
 }
 
-export  { Tasks }
+export  default Tasks 

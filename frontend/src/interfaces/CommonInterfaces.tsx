@@ -12,7 +12,7 @@ export interface IClient {
     city: string,
     street: string,
     building: string,
-    phone: number,
+    phone: string,
     manager: number,
     email: string
 }

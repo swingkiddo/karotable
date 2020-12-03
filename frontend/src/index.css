@@ -18,4 +18,5 @@ code {
 
 #root {
   height: 100vh;
+  overflow: hidden;
 }

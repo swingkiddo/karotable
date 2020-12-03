@@ -1,18 +1,13 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
-import Nav from '../../Main/Nav'
-import { Tasks } from '../../Tasks/Tasks'
-import Clients from '../../Clients/Clients'
+import Tasks from '../Tasks/Tasks'
+import Clients from '../Clients/Clients'
 
-import Authentication from '../../../services/AuthenticationService'
-const authentication = new Authentication()
+import './Main.scss'
 
-const ManagerView = (props) => {
+const Content = (props) => {
 
     return (
-        <div className="page">
-          <Nav logout={authentication.logout}/>
-
           <div className="content">
             <Switch>  
 
@@ -30,9 +25,7 @@ const ManagerView = (props) => {
               </Route>
             </Switch>
           </div>
-          
-        </div>
     )
 }
 
-export default ManagerView;
+export default Content;

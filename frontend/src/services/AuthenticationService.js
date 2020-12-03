@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-const API_URL = 'http://localhost:8000/api'
+const API_URL = 'http://192.168.1.31:8000/api'
+const FRONTEND_SERVER = 'http://192.168.1.31:3000'
 const TOKEN = localStorage.getItem('token')
 const HEADERS = {
     "Authorization": `Bearer ${TOKEN}`,
@@ -17,8 +18,8 @@ export default class Authentication {
         await axios.post(url, userData, {headers: {"Content-Type": "application/json"}})
           .then(response => response.data)
           .then(data => {
-              console.log(data.access)
             localStorage.setItem('token', data.access);
+            window.location.reload()
           })
     }
 
@@ -33,7 +34,7 @@ export default class Authentication {
     }   
 
     logout() {
-        localStorage.removeItem('token')
-        window.location.replace("http://localhost:3000/")
+        localStorage.removeItem('token');
+        window.location.reload();
     }
 }

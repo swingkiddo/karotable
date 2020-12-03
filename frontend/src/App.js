@@ -5,8 +5,9 @@ import { BrowserRouter } from 'react-router-dom'
 import Authentication from './services/AuthenticationService'
 import ClientsService from './services/ClientsService'
 
+import Nav from './components/Main/Nav'
+import Content from './components/Main/Content'
 import Login from './components/Main/Login'
-import ManagerView from './components/Views/Managers/ManagerView'
 import './App.scss';
 
 const authentication = new Authentication();
@@ -23,12 +24,17 @@ export const App = (props) => {
     .then(data => setClients(data));
 
     authentication.getUser().then(user => setUser(user))
-  }, [])
+  }, [loggedIn])
   
   return (
     <BrowserRouter>
-      { loggedIn ? <ManagerView user={user.employee} clients={clients} />
-                 : <Login /> }
+      { loggedIn 
+          ? <div className="root">
+              <Nav />
+              <Content user={user.employee} clients={clients} />
+            </div>
+
+          : <Login /> }
     </BrowserRouter>
 
   )
