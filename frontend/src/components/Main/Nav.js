@@ -4,8 +4,7 @@ import UserMenu from './UserMenu'
 import './Main.scss'
 
 
-export default function Nav(props) {
-
+const Nav = (props) => {
     return (
       <div className="nav">
 
@@ -22,10 +21,12 @@ export default function Nav(props) {
         </ul>
         <ul className="nav-menu-right">
           <li className="nav-menu-right-item">
-            <UserMenu logout={props.logout} />
+            <UserMenu />
           </li>
         </ul>
 
       </div>        
     )
 }
+
+export default Nav;

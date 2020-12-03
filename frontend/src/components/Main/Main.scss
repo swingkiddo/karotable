@@ -5,12 +5,29 @@
   box-shadow: 0 0 2px 3px rgba(0, 0, 0, .5);
 
   &-menu-left {
+    margin: 0;
     margin-right: 4rem;
     list-style-type: none;
     display: flex;
     justify-content: flex-start;
+    align-items: center;
     padding: 0;
     min-width: 20vw;
+
+
+    &-item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
+      height: 50%;
+      margin-left: 3rem;
+
+      &:hover {
+        border-bottom: 4px solid #cecece;
+        margin: 0 0 -4px 3rem;
+      }
+    }
 
     &-item a {
       text-decoration: none;
@@ -20,7 +37,6 @@
       font-size: .8rem;
       transition: all 1s;
       display: block;
-      margin-left: 3rem;
     }
 
     &-item a:hover {

@@ -39,8 +39,7 @@ const useStyles = makeStyles((theme: any) => ({
     },
     clientsWrapper: {
         display: 'grid',
-        gridTemplate: 'auto / repeat(5, 1fr)'
-
+        gridTemplate: 'auto / repeat(5, 1fr)' 
     }
 }))
 
@@ -48,9 +47,8 @@ const useStyles = makeStyles((theme: any) => ({
 
 const Clients = (props: IClientsProps) => {
     const [userClients, setUserClients] = useState<IClient[]>([])
-    const [showCreateModal, setShowCreateModal] = useState(false)
+    const [showModal, setShowModal] = useState(false)
     const [editableClient, setEditableClient] = useState<IClient>()
-    const [showEditModal, setShowEditModal] = useState(false)
 
     const classes = useStyles()
     const user = props.user;
@@ -69,7 +67,7 @@ const Clients = (props: IClientsProps) => {
     }, [user, clients])
 
     useEffect(() => {
-        if (editableClient) setShowCreateModal(true);
+        if (editableClient) setShowModal(true);
     }, [editableClient])
 
     const handleDeleteClient = (e: React.MouseEvent, pk: number) => {
@@ -105,7 +103,7 @@ const Clients = (props: IClientsProps) => {
                     <Button 
                     variant="contained" 
                     color="primary"
-                    onClick={(e) => setShowCreateModal(true)}>Добавить</Button>
+                    onClick={(e) => setShowModal(true)}>Добавить</Button>
                 </div>
             </Paper>
 
@@ -115,8 +113,6 @@ const Clients = (props: IClientsProps) => {
                     <ClientCard 
                         client={client} 
                         deleteClient={handleDeleteClient} 
-                        showCreateModal={showCreateModal}
-                        closeCreateModal={() => setShowCreateModal(false)} 
                         setEditableClient={setEditableClient}/>)
                     : null }
             </Paper>
@@ -124,8 +120,8 @@ const Clients = (props: IClientsProps) => {
             <ClientModal 
                 user={user}
                 client={editableClient ? editableClient : null} 
-                showCreateModal={showCreateModal} 
-                closeCreateModal={() => setShowCreateModal(false)}
+                showModal={showModal} 
+                closeModal={() => setShowModal(false)}
                 createClient={handleCreateClient}
                 updateClient={handleUpdateClient}
             />

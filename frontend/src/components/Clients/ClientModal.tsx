@@ -40,13 +40,13 @@ export const ClientModal = (props: IClientModalProps) => {
     const client = props.client; 
     const user = props.user;
 
-    const [pk, setPK] = useState(client && client !== undefined ? client.pk : 0)
-    const [name, setName] = useState(client && client !== undefined ? client.name : '')
-    const [phone, setPhone] = useState(client && client !== undefined ? client.phone : '')
-    const [city, setCity] = useState(client && client !== undefined ? client.city : '')
-    const [street, setStreet] = useState(client && client !== undefined ? client.street : '')
-    const [building, setBuilding] = useState(client && client !== undefined ? client.building : '')
-    const [email, setEmail] = useState(client && client !== undefined ? client.email : '')
+    const [pk, setPK] = useState(0)
+    const [name, setName] = useState('')
+    const [phone, setPhone] = useState('')
+    const [city, setCity] = useState('')
+    const [street, setStreet] = useState('')
+    const [building, setBuilding] = useState('')
+    const [email, setEmail] = useState('')
     const classes = useStyles()
     const data = {
         "name": name,
@@ -58,6 +58,7 @@ export const ClientModal = (props: IClientModalProps) => {
         "manager": user && user !== undefined ? props.user.pk : null
     }
 
+    /* when we give a client object to the modal for editing, set values in our form  */
     useEffect(() => {
         if (client && client !== undefined) {
             setPK(client.pk)
@@ -72,7 +73,7 @@ export const ClientModal = (props: IClientModalProps) => {
 
 
     return (
-        <Modal isOpen={props.showCreateModal} onRequestClose={props.closeCreateModal} style={customStyles}>
+        <Modal isOpen={props.showModal} onRequestClose={props.closeModal} style={customStyles}>
             <FormControl className={classes.form}>
                 <TextField value={name} label="Наименование" variant="outlined" onChange={(e) => setName(e.currentTarget.value)}/>
                 <TextField value={phone} label="Телефон" variant="outlined" onChange={(e) => setPhone(e.currentTarget.value)}/>
@@ -81,6 +82,7 @@ export const ClientModal = (props: IClientModalProps) => {
                 <TextField value={building} label="Дом/Строение" variant="outlined" onChange={(e) => setBuilding(e.currentTarget.value)}/>
                 <TextField value={email} label="Email" variant="outlined" onChange={(e) => setEmail(e.currentTarget.value)}/>
                 <div className={classes.buttons}>
+
                     {props.client && client !== undefined
                     ? <Button 
                         variant="outlined" 
@@ -89,9 +91,15 @@ export const ClientModal = (props: IClientModalProps) => {
                         onClick={(e) => props.updateClient(e, pk, data)}>
                             Изменить
                         </Button>
-                    : <Button variant="outlined" color="primary" className={classes.addButton} onClick={(e) => props.createClient(e, data)}>Добавить</Button>}
+                        
+                    : <Button 
+                        variant="outlined" 
+                        color="primary" 
+                        className={classes.addButton} 
+                        onClick={(e) => props.createClient(e, data)}>
+                            Добавить
+                      </Button>}
 
-                   
                 </div>
             </FormControl>
         </Modal>

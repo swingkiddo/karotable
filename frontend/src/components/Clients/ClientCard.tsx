@@ -1,13 +1,12 @@
-import React, { useState } from 'react'
-import { ICommonClientProps , IClientModalProps} from '../../interfaces/ClientsInterfaces'
+import React from 'react'
+import { ICommonClientProps } from '../../interfaces/ClientsInterfaces'
 import { 
     Card, 
     CardActions, 
     CardContent, 
     Typography,
-    IconButton,
-    Divider } from '@material-ui/core'
-import { MoreVert, MailOutline, Room } from '@material-ui/icons'
+    IconButton } from '@material-ui/core'
+import { MailOutline, Room } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/core/styles'
 
 import { ClientCardMenu } from './ClientCardMenu'
@@ -45,7 +44,7 @@ const useStyles = makeStyles((theme: any) => ({
     },
     clientAddress: {
         '& span': {
-            fontSize: '1rem'
+            fontSize: '.9rem'
         }
     }
 }));
@@ -70,13 +69,14 @@ const ClientCard = (props: ICommonClientProps) => {
 
                 <Typography className={classes.clientAddress}>
                     <span> { client.city } </span>, 
-                    <span> { client.street } </span><br />
+                    <span> { client.street } </span> <br/>
                     <span> { client.building } </span>
                 </Typography>
 
             </CardContent>
             
             <CardActions className={classes.cardButtons}>
+
                 <IconButton>
                     <MailOutline />
                 </IconButton>
@@ -88,9 +88,8 @@ const ClientCard = (props: ICommonClientProps) => {
                 <ClientCardMenu 
                     client={client} 
                     deleteClient={props.deleteClient} 
-                    showCreateModal={props.showCreateModal}
-                    closeCreateModal={props.closeCreateModal}
                     setEditableClient={props.setEditableClient}/>
+
             </CardActions>
 
           </Card>
