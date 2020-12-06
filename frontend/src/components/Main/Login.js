@@ -3,10 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Paper, TextField, Button } from '@material-ui/core'
 
 import Authentication from '../../services/AuthenticationService'
-import { dateComparer } from '@material-ui/data-grid';
-
 const authentication = new Authentication()
-
 
 const useStyles = makeStyles((theme) => ({
     wrapper: {
@@ -21,8 +18,18 @@ const useStyles = makeStyles((theme) => ({
         "& > div": {
             width: '25%',
             height: '30%',
-            margin: theme.spacing(2)
+            margin: theme.spacing(2),
+            [theme.breakpoints.down('md')]: {
+                width: '50%',
+                height: '40%',
+                margin: theme.spacing(2)
+            },
+            [theme.breakpoints.down('sm')]: {
+                width: '80%',
+                height: '50%'
+            }
         },
+        
 
         "& form": {
             width: '100%',
@@ -84,7 +91,8 @@ const Login = (props) => {
     return (
         <div className={classes.wrapper}>
             <Paper elevation={3}>
-                <form className="login-form" onSubmit={e => handleLogin(e, data)}>
+                <form className="login-form">
+
                     <div className={classes.inputs}>
                         <div className={classes.inputWrapper}>
                             <TextField 

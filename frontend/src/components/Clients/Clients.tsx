@@ -27,6 +27,9 @@ const useStyles = makeStyles((theme: any) => ({
 
         "& button": {
             margin: theme.spacing(3),
+            [theme.breakpoints.down('sm')]: {
+                fontSize: '.7rem'
+            }
         }
     },
     tableWrapper: {
@@ -39,7 +42,7 @@ const useStyles = makeStyles((theme: any) => ({
     },
     clientsWrapper: {
         display: 'grid',
-        gridTemplate: 'auto / repeat(5, 1fr)' 
+        gridTemplate: 'auto / repeat(auto-fit, minmax(200px, 1fr))' 
     }
 }))
 

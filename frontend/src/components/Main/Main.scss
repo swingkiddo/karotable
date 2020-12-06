@@ -4,6 +4,13 @@
   background-color: #0842b6de;
   box-shadow: 0 0 2px 3px rgba(0, 0, 0, .5);
 
+  &-mobile {
+    display: flex;
+    justify-content: flex-end;
+    background-color: #0842b6de;
+    box-shadow: 0 0 2px 3px rgba(0, 0, 0, .5);
+  }
+
   &-menu-left {
     margin: 0;
     margin-right: 4rem;

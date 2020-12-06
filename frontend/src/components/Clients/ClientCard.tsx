@@ -33,7 +33,10 @@ const useStyles = makeStyles((theme: any) => ({
         fontWeight: 700,
         marginBottom: theme.spacing(2),
         '& span': {
-            fontSize: '1.5rem'
+            fontSize: '1.5rem',
+            [theme.breakpoints.down('sm')]: {
+                fontSize: '1.2rem'
+            }
         }
     },
     clientPhone: {
