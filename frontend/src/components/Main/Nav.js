@@ -31,6 +31,9 @@ const Nav = (props) => {
                 <li className="nav-menu-left-item">
                   <a href="/clients">КЛИЕНТЫ</a>
                 </li>
+                <li className="nav-menu-left-item">
+                  <a href="/logistics">ЛОГИСТИКА</a>
+                </li>
               </ul>
             
               <ul className="nav-menu-right">

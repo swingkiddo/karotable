@@ -58,3 +58,21 @@ class Task(models.Model):
 
     def __str__(self):
         return "{} {}".format(self.date, self.description)
+
+
+class Point(models.Model):
+
+    # Logistic point
+
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, null=True)
+    manager = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, blank=True, related_name='points')
+    driver = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, blank=True)
+    date = models.DateField(null=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    description = models.CharField(max_length=200)
+
+    class Meta:
+        ordering = ['date_created']
+
+    def __str__(self):
+        return "{} {}".format(self.date, self.description)

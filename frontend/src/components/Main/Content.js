@@ -2,6 +2,7 @@ import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import Tasks from '../Tasks/Tasks'
 import Clients from '../Clients/Clients'
+import Logistics from '../Logistics/Logistics'
 
 import './Main.scss'
 
@@ -22,6 +23,9 @@ const Content = (props) => {
               </Route>
               <Route path="/clients">
                 <Clients user={props.user} clients={props.clients} />
+              </Route>
+              <Route path="/logistics">
+                <Logistics user={props.user} />
               </Route>
             </Switch>
           </div>

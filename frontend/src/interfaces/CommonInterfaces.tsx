@@ -16,3 +16,8 @@ export interface IClient {
     manager: number,
     email: string
 }
+
+export interface IDatePickerProps {
+    date: string,
+    setDate(date: string): void
+}

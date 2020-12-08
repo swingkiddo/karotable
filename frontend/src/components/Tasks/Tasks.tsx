@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { CreateTaskModal } from './CreateTaskModal'
+import CommonDatePicker from '../Common/CommonDatePicker'
 import moment from 'moment'
 
 import DateFnsUtils from '@date-io/date-fns'
@@ -68,17 +69,7 @@ const Tasks = (props: ITasksProps) => {
                 <div className="tasks-top-panel-header">
                     <span> Задачи </span>
                 </div>
-                <div className="tasks-top-panel-date-picker">
-                    <IconButton>
-                        <ArrowLeft onClick={(e) => setDate(moment(date).add(-1, "day").format("YYYY-MM-DD"))}/>
-                    </IconButton>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                        <DatePicker value={date} onChange={changeDateHandler} format="d MMM yyyy" />
-                    </MuiPickersUtilsProvider>
-                    <IconButton >
-                        <ArrowRight onClick={(e) => setDate(moment(date).add(1, "day").format("YYYY-MM-DD"))}/>
-                    </IconButton>
-                </div>
+                <CommonDatePicker date={date} setDate={setDate} />
             </div>
         </Paper>
         <Paper>
