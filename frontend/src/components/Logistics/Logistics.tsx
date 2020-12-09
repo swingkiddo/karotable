@@ -4,11 +4,10 @@ import moment from 'moment'
 import { makeStyles } from '@material-ui/core/styles'
 import { Paper, Button } from '@material-ui/core'
 
-import { DataGrid, ColDef } from '@material-ui/data-grid'
-
 import CommonDatePicker from '../Common/CommonDatePicker'
-import PointsGrid from './PointsGrid'
-import PointCard from './PointCard'
+import PointsTable from './PointsTable'
+import PointsList from './PointsList'
+
 import { ILogisticsProps, IPoint } from '../../interfaces/LosisticsInterfaces'
 import LogisticsService from '../../services/LogisticsService'
 const logisticsService = new LogisticsService()
@@ -58,29 +57,12 @@ const useStyles = makeStyles((theme: any) => ({
 
 
 }))
-
-const rows: any[] = []
-
-const makeRowsData = (points: IPoint[]) => {
-    points.map((point, index) => {
-        const client = point.client;
-        rows.push({
-            id: index + 1,
-            client: client.name,
-            address: `${client.city}, ${client.street}, ${client.building}`,
-            description: point.description,
-            driver: point.driver,
-            manager: point.manager
-        })
-    })
-}
-
+   
 
 const Logistics = (props: ILogisticsProps) => {
     const [points, setPoints] = useState([])
     const [currentPoints, setCurrentPoints] = useState([])
     const [date, setDate] = useState(moment().format("YYYY-MM-DD"))
-
     const classes = useStyles();
 
     useEffect(() => {
@@ -90,7 +72,6 @@ const Logistics = (props: ILogisticsProps) => {
                 setCurrentPoints(points.filter((point: IPoint) => {
                     return moment(point.date).format("YYYY-MM-DD") === date
                 }));
-                makeRowsData(points);
             })
     }, [])
 
@@ -99,6 +80,7 @@ const Logistics = (props: ILogisticsProps) => {
             return moment(point.date).format("YYYY-MM-DD") === date
         }))
     }, [date])
+
 
     return (
         <div className={classes.wrapper}>
@@ -113,8 +95,15 @@ const Logistics = (props: ILogisticsProps) => {
                     </div>
                 </div>
             </Paper>
+            <Paper elevation={3}>
+                {
+                    props.phoneScreen
+                    ? <PointsList points={currentPoints} user={props.user}/>
+                    : <PointsTable points={currentPoints} user={props.user}/>
+                }
 
-                <PointsGrid points={currentPoints} rows={rows}/>
+            </Paper>
+
         </div>
     )
 }

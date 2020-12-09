@@ -163,3 +163,27 @@ class PointsDetailView(APIView):
 
     def patch(self, request, pk):
         point = self.get_point(pk)
+        data = request.data
+        try:
+            if 'driver' in data:
+                if data['driver'] == 0:
+                    point.driver.point_set.remove(point)
+                else:
+                    point.driver_id = data['driver']
+                    point.save()
+
+            if 'client' in data:
+                point.client_id = data['client']
+                point.save()
+        except MultiValueDictKeyError:
+            pass
+        serializer = PointSerializer(point, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, pk):
+        point = self.get_point(pk)
+        point.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

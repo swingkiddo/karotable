@@ -23,6 +23,7 @@ export default class LogisticsService {
 
     updatePoint(pk, data) {
         const url = `${API_URL}/points/${pk}/`
+        console.log(data)
         return axios.patch(url, data, {headers: HEADERS})
     }
     

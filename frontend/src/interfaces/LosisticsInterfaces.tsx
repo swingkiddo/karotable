@@ -4,9 +4,14 @@ export interface IPoint {
     pk: number,
     date: string,
     description: string,
-    manager: IEmployee,
-    driver: IEmployee,
+    manager: string,
+    driver: string,
     client: IClient,
+}
+
+export interface IPointsProps {
+    points: IPoint[],
+    user: IEmployee
 }
 
 export interface IPointCardProps {
@@ -14,12 +19,13 @@ export interface IPointCardProps {
     index: number
 }
 
-export interface IPointsGridProps {
-    points: IPoint[],
-    rows: any[]
-}
-
 export interface ILogisticsProps {
     user: IEmployee,
+    phoneScreen: boolean
     
+}
+
+export interface IDriverCellProps {
+    point: IPoint,
+    user: IEmployee
 }

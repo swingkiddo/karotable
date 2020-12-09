@@ -14,7 +14,8 @@ import {
 
 const useStyles = makeStyles((theme: any) => ({
     cardWrapper: {
-        padding: theme.spacing(2)
+        padding: theme.spacing(2),
+        textAlign: 'center'
     }
 }))
 
@@ -23,13 +24,33 @@ const PointCard = (props: IPointCardProps) => {
     const point = props.point
     const client = point.client
     const classes = useStyles()
+
     return (
         <div className={classes.cardWrapper}>
             <Card>
                 <CardContent>
-                    <Typography>{ props.index }</Typography>
 
-                    <Typography>{ client.name }</Typography>
+                    <Typography>
+                        <span>{ props.index }</span>
+                        <hr></hr>
+                    </Typography>
+
+                    <Typography>
+                        <span><b>{ client.name }</b></span>
+                    </Typography>
+
+                    <Typography>
+                        <span>{ client.city},{client.address }</span>
+                    </Typography>
+
+                    <Typography>
+                        <span>{ point.description }</span>
+                    </Typography>
+
+                    <Typography>
+                        <span>{ point.manager }</span>
+                    </Typography>
+
                 </CardContent>
                 <CardActions>
 

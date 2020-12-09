@@ -25,7 +25,7 @@ const Content = (props) => {
                 <Clients user={props.user} clients={props.clients} />
               </Route>
               <Route path="/logistics">
-                <Logistics user={props.user} />
+                <Logistics user={props.user} phoneScreen={props.phoneScreen}/>
               </Route>
             </Switch>
           </div>

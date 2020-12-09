@@ -72,8 +72,7 @@ const ClientCard = (props: ICommonClientProps) => {
 
                 <Typography className={classes.clientAddress}>
                     <span> { client.city } </span>, 
-                    <span> { client.street } </span> <br/>
-                    <span> { client.building } </span>
+                    <span> { client.address } </span> <br/>
                 </Typography>
 
             </CardContent>

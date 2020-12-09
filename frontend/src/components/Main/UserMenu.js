@@ -26,7 +26,8 @@ const UserMenu = (props) => {
                         <IconButton 
                             aria-controls="user-menu"
                             aria-haspopup="true"
-                            onClick={handleClick}>
+                            onClick={handleClick}
+                        >
                             <MenuIcon />
                         </IconButton>
                         <Menu 

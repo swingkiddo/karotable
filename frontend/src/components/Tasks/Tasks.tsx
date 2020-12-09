@@ -3,10 +3,9 @@ import { CreateTaskModal } from './CreateTaskModal'
 import CommonDatePicker from '../Common/CommonDatePicker'
 import moment from 'moment'
 
-import DateFnsUtils from '@date-io/date-fns'
-import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers'
-import { Fab, Paper, IconButton, Icon } from "@material-ui/core"
-import { Add, ArrowLeft, ArrowRight } from '@material-ui/icons'
+
+import { Fab, Paper} from "@material-ui/core"
+import { Add } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/core/styles'
 
 import { ITasksProps } from '../../interfaces/TasksInterfaces'
