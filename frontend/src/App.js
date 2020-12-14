@@ -18,8 +18,9 @@ const clientsService = new ClientsService();
 export const App = (props) => {
   const [loggedIn, setLoggedIn] = useState(authentication.checkToken()) 
   const [user, setUser] = useState({})
-  const [clients, setClients] = useState(clientsService.getClients()) 
+  const [clients, setClients] = useState() 
   const phoneScreen = useMediaQuery('(max-width:600px)')
+  
   /* getting clients and user  when App component did mount*/
   useEffect(() => {
     clientsService.getClients()
@@ -27,7 +28,7 @@ export const App = (props) => {
 
     authentication.getUser().then(user => setUser(user))
   }, [loggedIn])
-  
+
   return (
     <BrowserRouter>
       { loggedIn 

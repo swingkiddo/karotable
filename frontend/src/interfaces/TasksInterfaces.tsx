@@ -9,18 +9,19 @@ export interface ITaskItem {
 }
 
 export interface ITasksProps {
-    currentUser: IEmployee
+    currentUser: IEmployee,
+    clients: IClient[]
 }
 
 export interface ITasksTableProps{
-    tasks: Array<ITaskItem>,
-    clients: Array<IClient>,
+    tasks: ITaskItem[],
+    clients: IClient[],
     currentUser: IEmployee,
 }
 
 export interface ITasksModalProps {
     isOpen: boolean,
     onRequestClose(): any,
-    clients: Array<IClient>,
+    clients: IClient[],
     currentUser: IEmployee
 }

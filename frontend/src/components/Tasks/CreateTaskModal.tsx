@@ -77,39 +77,43 @@ const CreateTaskModal = (props: ITasksModalProps) => {
                     <FormControl className={classes.root}>
                         <InputLabel htmlFor="client-input">Клиент</InputLabel>
                         <Select 
-                            className={classes.input}
-                            id="task-client" 
-                            native
-                            labelId="task-client-label" 
-                            onChange={(e) => setClientValue(e.currentTarget.value)}  
-                            inputProps={{
-                                name: "clientFormValue",
-                                id: "client-input"
-                            }}> 
+                        className={classes.input}
+                        id="task-client" 
+                        native
+                        labelId="task-client-label" 
+                        onChange={(e) => setClientValue(e.currentTarget.value)}  
+                        inputProps={{
+                            name: "clientFormValue",
+                            id: "client-input"
+                        }}
+                        > 
                             <option value=""></option>
-                        {props.clients.map(client =>
-                            <option value={client.pk}> {client.name} </option>)}
+                        { 
+                            props.clients.map(client =>
+                            <option value={client.pk}> {client.name} </option>) 
+                        }
                         </Select>
                     </FormControl>
 
                     <TextField 
-                        className={classes.input}
-                        id="task-date"
-                        type="date" 
-                        placeholder="Дата" 
-                        onChange={(e) => setDateValue(e.currentTarget.value)}
-                        inputProps = {{
-                            name: "dateFormValue"
-                        }} />
+                    className={classes.input}
+                    id="task-date"
+                    type="date" 
+                    placeholder="Дата" 
+                    onChange={(e) => setDateValue(e.currentTarget.value)}
+                    inputProps = {{
+                        name: "dateFormValue"
+                    }} 
+                    />
 
                     <TextareaAutosize
-                        className={classes.textarea} 
-                        rowsMax={5} 
-                        rowsMin={5} 
-                        placeholder="Задача" 
-                        onChange={(e) => setDescriptionValue(e.currentTarget.value)}
-                        name="descriptionFormValue"
-                        />
+                    className={classes.textarea} 
+                    rowsMax={5} 
+                    rowsMin={5} 
+                    placeholder="Задача" 
+                    onChange={(e) => setDescriptionValue(e.currentTarget.value)}
+                    name="descriptionFormValue"
+                    />
 
                 </div>
                 <div className="task-form-buttons">

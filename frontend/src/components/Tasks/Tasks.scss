@@ -3,8 +3,8 @@
 }
 
 .tasks-top-panel {
-    display: grid;
-    grid-template: 1fr / 4fr 1fr;
+    display: flex;
+    justify-content: space-between;
     width: 100%;
     margin-bottom: 24px;
 

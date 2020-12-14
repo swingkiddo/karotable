@@ -13,7 +13,7 @@ const Content = (props) => {
             <Switch>  
 
               <Route path="/tasks">
-                <Tasks currentUser={props.currentUser} />
+                <Tasks currentUser={props.currentUser} clients={props.clients}/>
               </Route>
               <Route path="/production">
                   
@@ -25,7 +25,7 @@ const Content = (props) => {
                 <Clients user={props.user} clients={props.clients} />
               </Route>
               <Route path="/logistics">
-                <Logistics user={props.user} phoneScreen={props.phoneScreen}/>
+                <Logistics user={props.user} clients={props.clients} phoneScreen={props.phoneScreen}/>
               </Route>
             </Switch>
           </div>

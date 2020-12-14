@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { ICommonClientProps, IClientModalProps } from '../../interfaces/ClientsInterfaces'
+import { IClientModalProps } from '../../interfaces/ClientsInterfaces'
 import Modal from 'react-modal'
 import { FormControl,
-         InputLabel,
          TextField,
          Button } from '@material-ui/core' 
 import { makeStyles } from "@material-ui/core/styles" 
@@ -48,6 +47,7 @@ export const ClientModal = (props: IClientModalProps) => {
     const [building, setBuilding] = useState('')
     const [email, setEmail] = useState('')
     const classes = useStyles()
+
     const data = {
         "name": name,
         "phone": phone,

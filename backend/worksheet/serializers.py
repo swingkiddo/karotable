@@ -68,17 +68,14 @@ class  PointSerializer(serializers.ModelSerializer):
 
     def create(self, data):
         request = self.context['request']
-        client_pk = request('client')
-        manager_pk = request('manager')
-        driver_pk = request('driver')
+        client_pk = request.data.get('client')
+        manager_pk = request.data.get('manager')
 
         client = Client.objects.get(pk=client_pk)
         manager = Employee.objects.get(pk=manager_pk)
-        driver = Employee.objects.get(pk=driver_pk)
         new_point = Point.objects.create(
             client=client, 
-            manager=manager, 
-            driver=driver, 
+            manager=manager,
             **data)
             
         return new_point

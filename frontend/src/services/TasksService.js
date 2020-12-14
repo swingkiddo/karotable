@@ -37,8 +37,4 @@ export default class TasksService {
         return axios.get(url, {headers: HEADERS}).then(response => response.data)
     }
 
-    getClients() {
-        const url = `${API_URL}/clients/`;
-        return axios.get(url, {headers: HEADERS}).then(response => response.data)
-    }
 }

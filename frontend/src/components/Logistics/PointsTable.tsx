@@ -21,7 +21,10 @@ const PointsTable = (props: IPointsProps) => {
             </TableHead>
             <TableBody>
             {props.points.map((point, index) => 
-                <TableRow key={point.pk} hover>
+                <TableRow key={point.pk} hover onClick={(e) => {
+                    props.setEditablePoint(point)
+                    
+                }}>
                     <TableCell align={"center"}> <span>{index + 1}</span></TableCell>
                     <TableCell align={"center"}> <span>{point.client.name}</span> </TableCell>
                     <TableCell align={"center"}>

@@ -23,10 +23,10 @@ const DriverCell = (props: IDriverCellProps) => {
     }
 
     let icon;
-    if (user.position === 'Водитель' && driver && user.name === driver) {
+    if (user?.position === 'Водитель' && driver && user?.name === driver) {
         icon = <Fragment> <span>{driver}</span> <IconButton onClick={(e) => removeDriver(e, point.pk)}> <Cancel /> </IconButton> </Fragment> 
     }
-    else if (user.position === 'Водитель' && !driver){
+    else if (user?.position === 'Водитель' && !driver){
         icon = <IconButton onClick={(e) => setDriver(e, point.pk, user.pk)}> <CheckCircle /> </IconButton> 
     } 
 

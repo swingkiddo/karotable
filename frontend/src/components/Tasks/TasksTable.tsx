@@ -50,7 +50,7 @@ export const TasksTable = (props: ITasksTableProps) => {
                     <TableCell align={"center"}> <span>{task.client.name}</span> </TableCell>
                     <TableCell align={"center"}>
                         <span>
-                            {task.client.city}, {task.client.street}, {task.client.building} 
+                            {task.client.city}, {task.client.address} 
                         </span> 
                     </TableCell>
                     <TableCell align={"center"}> <span>{task.description}</span> </TableCell>

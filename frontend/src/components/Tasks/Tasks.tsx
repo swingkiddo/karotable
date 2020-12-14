@@ -11,10 +11,12 @@ import { makeStyles } from '@material-ui/core/styles'
 import { ITasksProps } from '../../interfaces/TasksInterfaces'
 
 import TasksService from '../../services/TasksService'
+import ClientsService from '../../services/ClientsService'
 import { TasksTable } from './TasksTable'
 import './Tasks.scss'
 
 const tasksService = new TasksService();
+const clientsService = new ClientsService()
 
 const useStyles = makeStyles((theme: any) => ({
     paper: {
@@ -44,7 +46,7 @@ const Tasks = (props: ITasksProps) => {
                 return moment(task.date).format("YYYY-MM-DD") === date;
             }));
         });
-        tasksService.getClients().then((clients: any) => {
+        clientsService.getClients().then((clients: any) => {
             setClients(clients)
         });
     }, [])
@@ -56,7 +58,6 @@ const Tasks = (props: ITasksProps) => {
             return moment(task.date).format("YYYY-MM-DD") === date
         }))
     }, [date]);
-
 
     return (
         <div className="wrapper">
