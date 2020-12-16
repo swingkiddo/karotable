@@ -12,11 +12,48 @@ import {
     IconButton 
 } from '@material-ui/core'
 
+import DriverCardButton from './DriverCardButtons'
+
 const useStyles = makeStyles((theme: any) => ({
     cardWrapper: {
-        padding: theme.spacing(2),
-        textAlign: 'center'
+        textAlign: 'center',
+        marginBottom: theme.spacing(2)
+    },
+    cardIndex: {
+        backgroundColor: 'rgba(0, 0, 0, .8)',
+        borderRadius: '2px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+
+        '& span': {
+            color: 'white',
+            opacity: '1'
+        }
+    },
+    clientName: {
+        marginBottom: theme.spacing(1),
+        '& span': {
+            fontSize: '1.5rem'
+        }
+    },
+    clientAddress: {
+        '& span': {
+            fontSize: '1.2rem'
+        }
+    },
+    pointInfo: {
+        textAlign: 'left',
+        '& h3': {
+            marginBottom: '0'
+        }
+    },
+    buttons: {
+        display: 'flex',
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end'
     }
+
 }))
 
 const PointCard = (props: IPointCardProps) => {
@@ -26,37 +63,49 @@ const PointCard = (props: IPointCardProps) => {
     const classes = useStyles()
 
     return (
-        <div className={classes.cardWrapper}>
-            <Card>
+            <Card className={classes.cardWrapper}>
                 <CardContent>
 
-                    <Typography>
-                        <span>{ props.index }</span>
-                        <hr></hr>
+                    <Typography className={classes.cardIndex}>
+                        <div>
+                            <span>{ props.index }</span>
+                        </div>
+
                     </Typography>
 
-                    <Typography>
+                    <Typography className={classes.clientName}>
                         <span><b>{ client.name }</b></span>
                     </Typography>
 
-                    <Typography>
-                        <span>{ client.city},{client.address }</span>
+                    <Typography className={classes.clientAddress}>
+                        <span>{ client.city}, {client.address }</span>
+                        <p></p>
                     </Typography>
 
-                    <Typography>
+                    <Typography className={classes.pointInfo}>
+                        <h3>Задача: </h3>
                         <span>{ point.description }</span>
                     </Typography>
 
-                    <Typography>
+                    <Typography className={classes.pointInfo}> 
+                        <h3>Менеджер:</h3> 
                         <span>{ point.manager }</span>
                     </Typography>
 
+                    {
+                        point.driver
+                        ? <Typography className={classes.pointInfo}>
+                            <h3>Водитель</h3>
+                            <span>{ point.driver }</span>
+                        </Typography>
+                        : null
+                    }
                 </CardContent>
-                <CardActions>
-
+                <CardActions className={classes.buttons}>
+                    <DriverCardButton user={props.user} point={point}/>
                 </CardActions>
             </Card>
-        </div>
+
     )
 }
 

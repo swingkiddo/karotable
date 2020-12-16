@@ -17,7 +17,8 @@ export interface IPointsProps {
 
 export interface IPointCardProps {
     point: IPoint,
-    index: number
+    index: number,
+    user: IEmployee
 }
 
 export interface ILogisticsProps {
@@ -34,10 +35,11 @@ export interface ILogisticsModalProps {
     showModal: boolean,
     closeModal(): void,
     createPoint(e: React.MouseEvent, data: {}): void,
-    updatePoint(e: React.MouseEvent, pk: number, data: {}): void
+    updatePoint(e: React.MouseEvent, pk: number, data: {}): void,
+    deletePoint(e: React.MouseEvent, pk: number): void
 }
 
-export interface IDriverCellProps {
+export interface IDriverButtonsProps {
     point: IPoint,
     user: IEmployee
 }

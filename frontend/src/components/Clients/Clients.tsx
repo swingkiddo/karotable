@@ -96,7 +96,6 @@ const Clients = (props: IClientsProps) => {
         .catch(() => alert("Произошла ошибка"))
     }
 
-
     return (
         <div className={classes.wrapper}>
 
@@ -113,7 +112,7 @@ const Clients = (props: IClientsProps) => {
             <Paper elevation={3} className={classes.clientsWrapper}>
                 { userClients && userClients !== undefined
                     ? userClients.map((client: any) => 
-                    <ClientCard 
+                        <ClientCard 
                         client={client} 
                         deleteClient={handleDeleteClient} 
                         setEditableClient={setEditableClient}/>)
@@ -121,12 +120,12 @@ const Clients = (props: IClientsProps) => {
             </Paper>
 
             <ClientModal 
-                user={user}
-                client={editableClient ? editableClient : null} 
-                showModal={showModal} 
-                closeModal={() => setShowModal(false)}
-                createClient={handleCreateClient}
-                updateClient={handleUpdateClient}
+            user={user}
+            client={editableClient ? editableClient : null} 
+            showModal={showModal} 
+            closeModal={() => setShowModal(false)}
+            createClient={handleCreateClient}
+            updateClient={handleUpdateClient}
             />
 
         </div>

@@ -74,9 +74,10 @@ const Tasks = (props: ITasksProps) => {
         </Paper>
         <Paper>
             <TasksTable 
-                tasks={currentTasks}
-                clients={clients}
-                currentUser={props.currentUser} />
+            tasks={currentTasks}
+            clients={clients}
+            currentUser={props.currentUser} 
+            />
 
             <div className="add-task-button">
                 <Fab color="primary" onClick={() => setShowModal(true)}>
@@ -84,10 +85,11 @@ const Tasks = (props: ITasksProps) => {
                 </Fab>
 
                 <CreateTaskModal 
-                    isOpen={showModal}
-                    onRequestClose={() => setShowModal(false)}
-                    clients={clients}
-                    currentUser={props.currentUser} />
+                isOpen={showModal}
+                onRequestClose={() => setShowModal(false)}
+                clients={clients}
+                currentUser={props.currentUser} 
+                />
             </div>
 
         </Paper>

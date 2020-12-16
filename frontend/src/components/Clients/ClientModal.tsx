@@ -85,19 +85,19 @@ export const ClientModal = (props: IClientModalProps) => {
 
                     {props.client && client !== undefined
                     ? <Button 
-                        variant="outlined" 
-                        color="primary" 
-                        className={classes.addButton} 
-                        onClick={(e) => props.updateClient(e, pk, data)}>
-                            Изменить
-                        </Button>
+                      variant="outlined" 
+                      color="primary" 
+                      className={classes.addButton} 
+                      onClick={(e) => props.updateClient(e, pk, data)}>
+                          Изменить
+                      </Button>
                         
                     : <Button 
-                        variant="outlined" 
-                        color="primary" 
-                        className={classes.addButton} 
-                        onClick={(e) => props.createClient(e, data)}>
-                            Добавить
+                      variant="outlined" 
+                      color="primary" 
+                      className={classes.addButton} 
+                      onClick={(e) => props.createClient(e, data)}>
+                          Добавить
                       </Button>}
 
                 </div>

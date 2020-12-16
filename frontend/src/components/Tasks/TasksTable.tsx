@@ -33,13 +33,14 @@ export const TasksTable = (props: ITasksTableProps) => {
                 </TableRow>
                 {mountModal
                 ?   <EditTaskModalTwo 
-                        task={taskForModal}
-                        clients={props.clients} 
-                        isOpen={showModal} 
-                        onRequestClose={() => {
-                            setMountModal(false);
-                            setShowModal(false)
-                        }} />                 
+                    task={taskForModal}
+                    clients={props.clients} 
+                    isOpen={showModal} 
+                    onRequestClose={() => {
+                        setMountModal(false);
+                        setShowModal(false)
+                    }} 
+                    />                 
                 : null}
 
             </TableHead>

@@ -88,9 +88,9 @@ const ClientCard = (props: ICommonClientProps) => {
                 </IconButton>
 
                 <ClientCardMenu 
-                    client={client} 
-                    deleteClient={props.deleteClient} 
-                    setEditableClient={props.setEditableClient}/>
+                client={client} 
+                deleteClient={props.deleteClient} 
+                setEditableClient={props.setEditableClient}/>
 
             </CardActions>
 

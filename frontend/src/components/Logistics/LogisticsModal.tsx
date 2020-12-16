@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import Modal from 'react-modal'
 
 import { IClient } from '../../interfaces/CommonInterfaces'
@@ -51,7 +51,11 @@ const useStyles = makeStyles((theme: any) => ({
     },
     buttons: {
         display: 'flex',
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
+
+        '& button': {
+            marginLeft: theme.spacing(2)
+        }
     }
 }))
 const LogisticsModal = (props: ILogisticsModalProps) => {
@@ -86,17 +90,18 @@ const LogisticsModal = (props: ILogisticsModalProps) => {
 
     return (
         <Modal
-            isOpen={props.showModal}
-            style={customStyles}
-            onRequestClose={props.closeModal}>
+        isOpen={props.showModal}
+        style={customStyles}
+        onRequestClose={props.closeModal}>
 
             <FormControl className={classes.form}>
                 <InputLabel htmlFor="client-input">Клиент</InputLabel>
                 <Select
-                    value={client}
-                    onChange={(e) => { setClient(e.currentTarget.value) }}
-                    inputProps={{ id: "client-input" }}
-                    native
+                value={client}
+                onChange={(e) => { setClient(e.currentTarget.value) }}
+                inputProps={{ id: "client-input" }}
+                variant="standard"
+                    
                 >
                     <option value=""></option>
                     {
@@ -107,31 +112,43 @@ const LogisticsModal = (props: ILogisticsModalProps) => {
 
                 <MuiPickersUtilsProvider utils={MomentUtils} libInstance={moment} locale="ru">
                     <DatePicker
-                        value={date}
-                        onChange={date => changeDateHandler(date)}
-                        format="D MMM yyyy"
-                        className={classes.datePicker}
+                    value={date}
+                    onChange={date => changeDateHandler(date)}
+                    format="D MMM yyyy"
+                    className={classes.datePicker}
                     />
                 </MuiPickersUtilsProvider>
 
                 <TextareaAutosize
-                    onChange={(e) => setDescription(e.currentTarget.value)}
-                    value={description}
-                    rowsMax={5}
-                    rowsMin={5}
-                    placeholder="Задача"
+                onChange={(e) => setDescription(e.currentTarget.value)}
+                value={description}
+                rowsMax={5}
+                rowsMin={5}
+                placeholder="Задача"
                 />
 
                 <div className={classes.buttons}>
                     {
                         props.point && props.point !== undefined
-                            ? <Button
+                            ? <Fragment>
+                                <Button
                                 variant="outlined"
                                 color="primary"
                                 onClick={(e) => props.updatePoint(e, pk, data)}
-                            >
-                                Изменить
-                        </Button>
+                                >
+                                    Изменить
+                                </Button>
+
+                                <Button
+                                variant="contained"
+                                color="secondary"
+                                onClick={(e) => { props.deletePoint(e, pk); props.closeModal() }}
+                                >
+                                    Удалить
+                                </Button>
+                            </Fragment>
+
+                            
 
                             : <Button
                                 variant="outlined"
@@ -139,7 +156,7 @@ const LogisticsModal = (props: ILogisticsModalProps) => {
                                 onClick={(e) => props.createPoint(e, data)}
                             >
                                 Добавить
-                        </Button>
+                            </Button>
                     }
 
                 </div>

@@ -1,9 +1,8 @@
 import React from 'react'
-import DriverCell from './DriverCell'
+import DriverCellButton from './DriverCellButtons'
 
 import { Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core'
 import { IPointsProps } from '../../interfaces/LosisticsInterfaces'
-
 
 const PointsTable = (props: IPointsProps) => {
 
@@ -33,7 +32,7 @@ const PointsTable = (props: IPointsProps) => {
                         </span> 
                     </TableCell>
                     <TableCell align={"center"}> <span>{point.description}</span> </TableCell>
-                    <DriverCell user={props.user} point={point} />
+                    <DriverCellButton user={props.user} point={point} />
                     <TableCell align={"center"}> <span>{point.manager}</span></TableCell>
                 </TableRow>)}                        
             </TableBody>

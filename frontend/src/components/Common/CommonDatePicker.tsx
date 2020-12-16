@@ -40,27 +40,33 @@ const CommonDatePicker = (props: IDatePickerProps) => {
         props.setDate(moment(date.toDate()).format("YYYY-MM-DD"))
     }
 
+    const addDays = (days: number) => {
+        props.setDate(moment(props.date)
+        .add(days, "day")
+        .format("YYYY-MM-DD"))
+    }
+
     const classes = useStyles()
     return (
         <div className={classes.wrapper}>
             <IconButton>
-                <ArrowLeft onClick={(e) => props.setDate(moment(props.date).add(-1, "day").format("YYYY-MM-DD"))} />
+                <ArrowLeft onClick={(e) => addDays(-1)} /> 
             </IconButton>
 
             <MuiPickersUtilsProvider
-                utils={MomentUtils}
-                libInstance={moment}
-                locale="ru"
+            utils={MomentUtils}
+            libInstance={moment}
+            locale="ru"
             >
                 <DatePicker
-                    value={props.date}
-                    onChange={date => changeDateHandler(date)}
-                    format="D MMM yyyy"
+                value={props.date}
+                onChange={date => changeDateHandler(date)}
+                format="D MMM yyyy"
                 />
             </MuiPickersUtilsProvider>
 
             <IconButton >
-                <ArrowRight onClick={(e) => props.setDate(moment(props.date).add(1, "day").format("YYYY-MM-DD"))} />
+                <ArrowRight onClick={(e) => addDays(1)} />
             </IconButton>
         </div>
     )

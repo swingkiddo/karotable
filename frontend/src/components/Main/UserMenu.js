@@ -24,21 +24,27 @@ const UserMenu = (props) => {
                 ?
                     <div>
                         <IconButton 
-                            aria-controls="user-menu"
-                            aria-haspopup="true"
-                            onClick={handleClick}
+                        aria-controls="user-menu"
+                        aria-haspopup="true"
+                        onClick={handleClick}
                         >
                             <MenuIcon />
                         </IconButton>
                         <Menu 
-                            id="user-menu"
-                            anchorEl={anchorEl}
-                            open={Boolean(anchorEl)}
-                            onClose={handleClose}
+                        id="user-menu"
+                        anchorEl={anchorEl}
+                        open={Boolean(anchorEl)}
+                        onClose={handleClose}
                         >
-                            <MenuItem><Link to='/production'>Производство</Link></MenuItem>
-                            <MenuItem><Link to='/logistics'>Логистика</Link></MenuItem>
-                            <MenuItem onClick={(e) => handleClose()}><Link to='/clients'>Клиенты</Link></MenuItem>
+                            <MenuItem>
+                                <Link to='/production'>Производство</Link>
+                            </MenuItem>
+                            <MenuItem>
+                                <Link to='/logistics'>Логистика</Link>
+                            </MenuItem>
+                            <MenuItem onClick={(e) => handleClose()}>
+                                <Link to='/clients'>Клиенты</Link>
+                            </MenuItem>
                             <Divider />
                             <MenuItem onClick={authentication.logout}>Выйти</MenuItem>
                         </Menu>
@@ -46,18 +52,20 @@ const UserMenu = (props) => {
                 :
                     <div>
                         <IconButton 
-                            aria-controls="user-menu"
-                            aria-haspopup="true"
-                            onClick={handleClick}>
+                        aria-controls="user-menu"
+                        aria-haspopup="true"
+                        onClick={handleClick}>
                             <MenuIcon />
                         </IconButton>
                         <Menu 
-                            id="user-menu"
-                            anchorEl={anchorEl}
-                            open={Boolean(anchorEl)}
-                            onClose={handleClose}
+                        id="user-menu"
+                        anchorEl={anchorEl}
+                        open={Boolean(anchorEl)}
+                        onClose={handleClose}
                         >
-                            <MenuItem onClick={(e) => handleClose()}><Link to='/clients'>Клиенты</Link></MenuItem>
+                            <MenuItem onClick={(e) => handleClose()}>
+                                <Link to='/clients'>Клиенты</Link>
+                            </MenuItem>
                             <Divider />
                             <MenuItem onClick={authentication.logout}>Выйти</MenuItem>
                         </Menu>

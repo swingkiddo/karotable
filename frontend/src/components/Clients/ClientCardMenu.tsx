@@ -15,9 +15,9 @@ export const ClientCardMenu = (props: ICommonClientProps) => {
                 <MoreVert />
             </IconButton>
             <Menu 
-                anchorEl={anchor} 
-                open={Boolean(anchor)} 
-                onClose={(e) => setAnchor(null)}
+            anchorEl={anchor} 
+            open={Boolean(anchor)} 
+            onClose={(e) => setAnchor(null)}
             >
 
                 <MenuItem onClick={(e) => {

@@ -112,16 +112,27 @@ const Logistics = (props: ILogisticsProps) => {
         if (editablePoint) setShowModal(true)
     }, [editablePoint])
 
-    const createPoint = (e: React.MouseEvent, data: {}) => {
+    const handleCreatePoint = (e: React.MouseEvent, data: {}) => {
         logisticsService.createPoint(data)
         .then(() => window.location.reload())
         .catch(() => alert("Произошла ошибка"))
     }
 
-    const updatePoint = (e: React.MouseEvent, pk: number | null, data: {}) => {
+    const handleUpdatePoint = (e: React.MouseEvent, pk: number | null, data: {}) => {
         logisticsService.updatePoint(pk, data)
         .then(() => window.location.reload())
         .catch(() => alert("Произошла ошибка"))
+    }
+
+    const handleDeletePoint = (e: React.MouseEvent, pk: number | null) => {
+        logisticsService.deletePoint(pk)
+        .then(() => {
+            const updatedPoints = points.filter((point: IPoint) => {
+                return point.pk !== pk
+            })
+            setPoints(updatedPoints)
+        })
+        .catch(() => alert("Произошла ошибка!"))
     }
 
     return (
@@ -144,8 +155,15 @@ const Logistics = (props: ILogisticsProps) => {
             <Paper elevation={3}>
                 {
                     props.phoneScreen
-                    ? <PointsList points={currentPoints} setEditablePoint={setEditablePoint} user={props.user}/>
-                    : <PointsTable points={currentPoints} setEditablePoint={setEditablePoint} user={props.user}/>
+                    ? <PointsList
+                      points={currentPoints} 
+                      setEditablePoint={setEditablePoint} 
+                      user={props.user}
+                      />
+                    : <PointsTable 
+                      points={currentPoints} 
+                      setEditablePoint={setEditablePoint} 
+                      user={props.user}/>
                 }
             </Paper>
             
@@ -155,8 +173,9 @@ const Logistics = (props: ILogisticsProps) => {
             point={editablePoint ? editablePoint : null}
             showModal={showModal} 
             closeModal={() => { setShowModal(false); setEditablePoint(undefined)}}
-            createPoint={createPoint}
-            updatePoint={updatePoint}
+            createPoint={handleCreatePoint}
+            updatePoint={handleUpdatePoint}
+            deletePoint={handleDeletePoint}
             />
         </div>
     )
