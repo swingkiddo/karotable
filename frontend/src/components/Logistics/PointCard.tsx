@@ -1,9 +1,8 @@
 import React from 'react'
-
-import { makeStyles } from "@material-ui/core/styles"
-
+import DriverCardButton from './DriverCardButtons'
 import { IPointCardProps } from '../../interfaces/LosisticsInterfaces'
 
+import { makeStyles } from "@material-ui/core/styles"
 import { 
     Card, 
     CardActions, 
@@ -12,7 +11,9 @@ import {
     IconButton 
 } from '@material-ui/core'
 
-import DriverCardButton from './DriverCardButtons'
+import { YMaps, Map, Placemark } from 'react-yandex-maps'
+
+
 
 const useStyles = makeStyles((theme: any) => ({
     cardWrapper: {
@@ -52,6 +53,9 @@ const useStyles = makeStyles((theme: any) => ({
         display: 'flex',
         justifyContent: 'flex-end',
         alignItems: 'flex-end'
+    },
+    mapWrapper: {
+        marginTop: theme.spacing(2)
     }
 
 }))
@@ -62,6 +66,8 @@ const PointCard = (props: IPointCardProps) => {
     const client = point.client
     const classes = useStyles()
 
+    let coords: number[] = client.coordinates.split(',').map(coord => Number(coord.trim()))
+    
     return (
             <Card className={classes.cardWrapper}>
                 <CardContent>
@@ -70,7 +76,6 @@ const PointCard = (props: IPointCardProps) => {
                         <div>
                             <span>{ props.index }</span>
                         </div>
-
                     </Typography>
 
                     <Typography className={classes.clientName}>
@@ -95,11 +100,26 @@ const PointCard = (props: IPointCardProps) => {
                     {
                         point.driver
                         ? <Typography className={classes.pointInfo}>
-                            <h3>Водитель</h3>
+                            <h3>Водитель:</h3>
                             <span>{ point.driver }</span>
                         </Typography>
                         : null
                     }
+
+                    <YMaps>
+                        <div className={classes.mapWrapper}>
+                            <Map 
+                            defaultState={{
+                                center: coords,
+                                zoom: 11
+                            }}
+                            width={'100%'}
+                            >
+                                <Placemark geometry={coords} />
+                            </Map>
+                        </div>
+                    </YMaps>
+
                 </CardContent>
                 <CardActions className={classes.buttons}>
                     <DriverCardButton user={props.user} point={point}/>

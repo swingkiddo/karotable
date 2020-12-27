@@ -4,16 +4,18 @@ import Tasks from '../Tasks/Tasks'
 import Clients from '../Clients/Clients'
 import Logistics from '../Logistics/Logistics'
 
+
+import { IContentProps } from '../../interfaces/CommonInterfaces'
 import './Main.scss'
 
-const Content = (props) => {
+const Content = (props: IContentProps) => {
 
     return (
           <div className="content">
             <Switch>  
 
               <Route path="/tasks">
-                <Tasks currentUser={props.currentUser} clients={props.clients}/>
+                <Tasks currentUser={props.user} clients={props.clients}/>
               </Route>
               <Route path="/production">
                   

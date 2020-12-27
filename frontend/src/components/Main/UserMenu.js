@@ -39,14 +39,20 @@ const UserMenu = (props) => {
                             <MenuItem>
                                 <Link to='/production'>Производство</Link>
                             </MenuItem>
+
                             <MenuItem>
                                 <Link to='/logistics'>Логистика</Link>
                             </MenuItem>
+
                             <MenuItem onClick={(e) => handleClose()}>
                                 <Link to='/clients'>Клиенты</Link>
                             </MenuItem>
+
                             <Divider />
-                            <MenuItem onClick={authentication.logout}>Выйти</MenuItem>
+
+                            <MenuItem onClick={authentication.logout}>
+                                Выйти
+                            </MenuItem>
                         </Menu>
                     </div>
                 :

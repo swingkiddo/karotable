@@ -3,9 +3,7 @@ import UserMenu from './UserMenu'
 
 import './Main.scss'
 
-
 const Nav = (props) => {
-
 
     return (
       <div>

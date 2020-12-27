@@ -9,7 +9,7 @@ from django.contrib.auth.models import User, update_last_login
 class ClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Client
-        fields = ('pk', 'name', 'city', 'address', 'phone', 'email', 'manager')
+        fields = ('pk', 'name', 'city', 'address', 'phone', 'email', 'manager', 'coordinates')
 
 
 class EmployeeSerializer(serializers.ModelSerializer):

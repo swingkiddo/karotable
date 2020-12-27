@@ -19,7 +19,8 @@ export const App = (props) => {
   const [loggedIn, setLoggedIn] = useState(authentication.checkToken()) 
   const [user, setUser] = useState({})
   const [clients, setClients] = useState() 
-  const phoneScreen = useMediaQuery('(max-width:600px)')
+  const phoneScreen = useMediaQuery('(max-width: 425px)')
+  const tabletScreen = useMediaQuery('(max-width: 768px)')
   
   /* getting clients and user  when App component did mount*/
   useEffect(() => {

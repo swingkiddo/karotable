@@ -14,10 +14,17 @@ export interface IClient {
     building: string,
     phone: string,
     manager: number,
-    email: string
+    email: string,
+    coordinates: string,
 }
 
 export interface IDatePickerProps {
     date: string,
     setDate(date: string): void
+}
+
+export interface IContentProps {
+    user: IEmployee,
+    clients: IClient[],
+    phoneScreen: boolean
 }
