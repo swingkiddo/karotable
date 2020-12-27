@@ -15,9 +15,7 @@ const clientsService = new ClientsService();
 const useStyles = makeStyles((theme: any) => ({
     wrapper: {
         padding: '0 2rem',
-        fontFamily: 'Montserrat, sans-serif',
-        fontWeight: 700,
-        fontSize: '1.5rem'
+        fontFamily: 'Montserrat, sans-serif'
     },
     topPanel: {
         width: '100%',
@@ -35,10 +33,12 @@ const useStyles = makeStyles((theme: any) => ({
     tableWrapper: {
         height: '20rem'
     },
-    tableHeader: {
+    panelHeader: {
         marginLeft: theme.spacing(3),
         display: 'flex',
-        alignItems: 'center'
+        alignItems: 'center',
+        fontWeight: 700,
+        fontSize: '1.5rem'
     },
     clientsWrapper: {
         display: 'grid',
@@ -96,13 +96,12 @@ const Clients = (props: IClientsProps) => {
         .catch(() => alert("Произошла ошибка"))
     }
 
-
     return (
         <div className={classes.wrapper}>
 
             <Paper elevation={3}>
                 <div className={classes.topPanel}>
-                    <span className={classes.tableHeader}>Клиенты</span>
+                    <span className={classes.panelHeader}>Клиенты</span>
                     <Button 
                     variant="contained" 
                     color="primary"
@@ -113,7 +112,7 @@ const Clients = (props: IClientsProps) => {
             <Paper elevation={3} className={classes.clientsWrapper}>
                 { userClients && userClients !== undefined
                     ? userClients.map((client: any) => 
-                    <ClientCard 
+                        <ClientCard 
                         client={client} 
                         deleteClient={handleDeleteClient} 
                         setEditableClient={setEditableClient}/>)
@@ -121,12 +120,12 @@ const Clients = (props: IClientsProps) => {
             </Paper>
 
             <ClientModal 
-                user={user}
-                client={editableClient ? editableClient : null} 
-                showModal={showModal} 
-                closeModal={() => setShowModal(false)}
-                createClient={handleCreateClient}
-                updateClient={handleUpdateClient}
+            user={user}
+            client={editableClient ? editableClient : null} 
+            showModal={showModal} 
+            closeModal={() => setShowModal(false)}
+            createClient={handleCreateClient}
+            updateClient={handleUpdateClient}
             />
 
         </div>

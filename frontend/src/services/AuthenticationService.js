@@ -1,7 +1,6 @@
 import axios from 'axios'
 
-const API_URL = 'http://192.168.1.31:8000/api'
-const FRONTEND_SERVER = 'http://192.168.1.31:3000'
+const API_URL = 'http://192.168.1.253:8000/api'
 const TOKEN = localStorage.getItem('token')
 const HEADERS = {
     "Authorization": `Bearer ${TOKEN}`,

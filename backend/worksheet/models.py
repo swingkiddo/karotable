@@ -34,13 +34,12 @@ class Employee(models.Model):
 
 class Client(models.Model):
     name = models.CharField(max_length=20)
-    address = models.CharField(max_length=100, null=True, blank=True)
     city = models.CharField(max_length=50, null=True)
-    street = models.CharField(max_length=50, null=True)
-    building = models.CharField(max_length=20, null=True)
+    address = models.CharField(max_length=100, null=True)
     phone = models.CharField(max_length=15)
     email = models.EmailField(null=True)
     manager = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)
+    coordinates = models.CharField(max_length=25, null=True)
 
     def __str__(self):
         return self.name
@@ -49,6 +48,24 @@ class Client(models.Model):
 class Task(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE, null=True)
     manager = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, blank=True, related_name='tasks')
+    date = models.DateField(null=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    description = models.CharField(max_length=200)
+
+    class Meta:
+        ordering = ['date_created']
+
+    def __str__(self):
+        return "{} {}".format(self.date, self.description)
+
+
+class Point(models.Model):
+
+    # Logistic point
+
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, null=True)
+    manager = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, blank=True, related_name='points')
+    driver = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, blank=True)
     date = models.DateField(null=True)
     date_created = models.DateTimeField(auto_now_add=True)
     description = models.CharField(max_length=200)

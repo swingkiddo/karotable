@@ -1,7 +1,7 @@
 from rest_framework import serializers, status
 from rest_framework.response import Response 
 
-from .models import Client, Employee, Task
+from .models import Client, Employee, Task, Point
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User, update_last_login
 
@@ -9,7 +9,7 @@ from django.contrib.auth.models import User, update_last_login
 class ClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Client
-        fields = ('pk', 'name', 'address', 'city', 'street', 'building', 'phone', 'email', 'manager')
+        fields = ('pk', 'name', 'city', 'address', 'phone', 'email', 'manager', 'coordinates')
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
@@ -54,6 +54,31 @@ class TaskSerializer(serializers.ModelSerializer):
         new_task = Task.objects.create(client=client, manager=manager, **data)
         return new_task
     
+
+
+class  PointSerializer(serializers.ModelSerializer):
+    manager = serializers.StringRelatedField(required=False)
+    driver = serializers.StringRelatedField(required=False)
+    client = ClientSerializer(read_only=True)
+
+    class Meta:
+        model = Point
+        fields = ('pk', 'manager', 'driver', 'description', 'date', 'client')
+        depth = 1
+
+    def create(self, data):
+        request = self.context['request']
+        client_pk = request.data.get('client')
+        manager_pk = request.data.get('manager')
+
+        client = Client.objects.get(pk=client_pk)
+        manager = Employee.objects.get(pk=manager_pk)
+        new_point = Point.objects.create(
+            client=client, 
+            manager=manager,
+            **data)
+            
+        return new_point
 
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=255, required=True)

@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { BrowserRouter } from 'react-router-dom'
+import { useMediaQuery } from '@material-ui/core'
 
 import Authentication from './services/AuthenticationService'
 import ClientsService from './services/ClientsService'
@@ -13,11 +14,14 @@ import './App.scss';
 const authentication = new Authentication();
 const clientsService = new ClientsService();
 
+
 export const App = (props) => {
   const [loggedIn, setLoggedIn] = useState(authentication.checkToken()) 
   const [user, setUser] = useState({})
-  const [clients, setClients] = useState(clientsService.getClients()) 
-
+  const [clients, setClients] = useState() 
+  const phoneScreen = useMediaQuery('(max-width: 425px)')
+  const tabletScreen = useMediaQuery('(max-width: 768px)')
+  
   /* getting clients and user  when App component did mount*/
   useEffect(() => {
     clientsService.getClients()
@@ -25,13 +29,13 @@ export const App = (props) => {
 
     authentication.getUser().then(user => setUser(user))
   }, [loggedIn])
-  
+
   return (
     <BrowserRouter>
       { loggedIn 
           ? <div className="root">
-              <Nav />
-              <Content user={user.employee} clients={clients} />
+              <Nav phoneScreen={phoneScreen}/>
+              <Content user={user.employee} clients={clients} phoneScreen={phoneScreen}/>
             </div>
 
           : <Login /> }

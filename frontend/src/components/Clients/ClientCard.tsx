@@ -72,8 +72,7 @@ const ClientCard = (props: ICommonClientProps) => {
 
                 <Typography className={classes.clientAddress}>
                     <span> { client.city } </span>, 
-                    <span> { client.street } </span> <br/>
-                    <span> { client.building } </span>
+                    <span> { client.address } </span> <br/>
                 </Typography>
 
             </CardContent>
@@ -89,9 +88,9 @@ const ClientCard = (props: ICommonClientProps) => {
                 </IconButton>
 
                 <ClientCardMenu 
-                    client={client} 
-                    deleteClient={props.deleteClient} 
-                    setEditableClient={props.setEditableClient}/>
+                client={client} 
+                deleteClient={props.deleteClient} 
+                setEditableClient={props.setEditableClient}/>
 
             </CardActions>
 

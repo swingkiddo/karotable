@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles, Theme } from '@material-ui/core/styles'
 import { Paper, TextField, Button } from '@material-ui/core'
 
 import Authentication from '../../services/AuthenticationService'
 const authentication = new Authentication()
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
     wrapper: {
         display: 'flex',
         flexWrap: 'wrap',
@@ -65,22 +65,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Login = (props) => {
+const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const classes = useStyles();
 
-    const handleChange = e => {
-        const name = e.target.name;
-        const value = e.target.value;
-        if (name === 'username') setUsername(value);
-        if (name === 'password') setPassword(value);
-    };
-
-    const handleLogin = (e, data) => {
+    const handleLogin = (e: React.MouseEvent, data: {}) => {
         e.preventDefault();
         authentication.authtorizeUser(data);
-
     }
 
     const data = {
@@ -96,33 +88,31 @@ const Login = (props) => {
                     <div className={classes.inputs}>
                         <div className={classes.inputWrapper}>
                             <TextField 
-                                onChange={handleChange} 
-                                inputProps={{name: "username"}} 
-                                value={username}
-                                label="Login"
-                                classes={classes.input}
-                                variant="outlined"
+                            onChange={(e) => setUsername(e.currentTarget.value)} 
+                            inputProps={{name: "username"}} 
+                            value={username}
+                            label="Login"
+                            variant="outlined"
                             />
                         </div>
 
                         <div className={classes.inputWrapper}>
                             <TextField 
-                                type="password"
-                                onChange={handleChange}
-                                inputProps={{name: "password"}}
-                                value={password}
-                                label="Password" 
-                                variant="outlined"
+                            type="password"
+                            onChange={(e) => setPassword(e.currentTarget.value)}
+                            inputProps={{name: "password"}}
+                            value={password}
+                            label="Password" 
+                            variant="outlined"
                             />
                         </div>
 
-
                         <div className={classes.buttonWrapper}>
                             <Button 
-                                variant="contained" 
-                                color="primary" 
-                                className={classes.button}
-                                onClick={e =>handleLogin(e, data)}
+                            variant="contained" 
+                            color="primary" 
+                            className={classes.button}
+                            onClick={(e) => handleLogin(e, data)}
                             >
                                 Войти
                             </Button>

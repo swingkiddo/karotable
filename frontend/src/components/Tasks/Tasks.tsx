@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from 'react'
 import { CreateTaskModal } from './CreateTaskModal'
+import CommonDatePicker from '../Common/CommonDatePicker'
 import moment from 'moment'
 
-import DateFnsUtils from '@date-io/date-fns'
-import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers'
-import { Fab, Paper, IconButton, Icon } from "@material-ui/core"
-import { Add, ArrowLeft, ArrowRight } from '@material-ui/icons'
-import { makeStyles } from '@material-ui/core/styles'
+
+import { Fab, Paper} from "@material-ui/core"
+import { Add } from '@material-ui/icons'
+import { makeStyles, Theme } from '@material-ui/core/styles'
 
 import { ITasksProps } from '../../interfaces/TasksInterfaces'
 
 import TasksService from '../../services/TasksService'
+import ClientsService from '../../services/ClientsService'
 import { TasksTable } from './TasksTable'
 import './Tasks.scss'
 
 const tasksService = new TasksService();
+const clientsService = new ClientsService()
 
-const useStyles = makeStyles((theme: any) => ({
+const useStyles = makeStyles((theme: Theme) => ({
     paper: {
         paddingTop: '0'
     }
@@ -44,7 +46,7 @@ const Tasks = (props: ITasksProps) => {
                 return moment(task.date).format("YYYY-MM-DD") === date;
             }));
         });
-        tasksService.getClients().then((clients: any) => {
+        clientsService.getClients().then((clients: any) => {
             setClients(clients)
         });
     }, [])
@@ -57,7 +59,6 @@ const Tasks = (props: ITasksProps) => {
         }))
     }, [date]);
 
-
     return (
         <div className="wrapper">
         <Paper 
@@ -68,24 +69,15 @@ const Tasks = (props: ITasksProps) => {
                 <div className="tasks-top-panel-header">
                     <span> Задачи </span>
                 </div>
-                <div className="tasks-top-panel-date-picker">
-                    <IconButton>
-                        <ArrowLeft onClick={(e) => setDate(moment(date).add(-1, "day").format("YYYY-MM-DD"))}/>
-                    </IconButton>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                        <DatePicker value={date} onChange={changeDateHandler} format="d MMM yyyy" />
-                    </MuiPickersUtilsProvider>
-                    <IconButton >
-                        <ArrowRight onClick={(e) => setDate(moment(date).add(1, "day").format("YYYY-MM-DD"))}/>
-                    </IconButton>
-                </div>
+                <CommonDatePicker date={date} setDate={setDate} />
             </div>
         </Paper>
         <Paper>
             <TasksTable 
-                tasks={currentTasks}
-                clients={clients}
-                currentUser={props.currentUser} />
+            tasks={currentTasks}
+            clients={clients}
+            currentUser={props.currentUser} 
+            />
 
             <div className="add-task-button">
                 <Fab color="primary" onClick={() => setShowModal(true)}>
@@ -93,10 +85,11 @@ const Tasks = (props: ITasksProps) => {
                 </Fab>
 
                 <CreateTaskModal 
-                    isOpen={showModal}
-                    onRequestClose={() => setShowModal(false)}
-                    clients={clients}
-                    currentUser={props.currentUser} />
+                isOpen={showModal}
+                onRequestClose={() => setShowModal(false)}
+                clients={clients}
+                currentUser={props.currentUser} 
+                />
             </div>
 
         </Paper>

@@ -8,6 +8,9 @@ urlpatterns = [
     path('employees/', EmployeesListView.as_view()),
     path('tasks/', TasksListView.as_view()),
     path('tasks/<int:pk>/', TaskDetailView.as_view()),
+    path('points/', PointsListView.as_view()),
+    path('points/<int:pk>/', PointsDetailView.as_view()),
+
     path('login/', LoginView.as_view()),
     path('logout/', LogoutView.as_view()),
     path('current-user/', CurrentUser.as_view()),
